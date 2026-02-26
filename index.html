@@ -20,7 +20,6 @@
             padding: 0;
         }
 
-        /* Top Warning Bar */
         .legal-bar {
             background: var(--alert-red);
             color: #000;
@@ -61,7 +60,6 @@
             padding: 0 20px;
         }
 
-        /* Product Display */
         .product-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -120,7 +118,6 @@
             font-weight: bold;
         }
 
-        /* Contact Section */
         .contact-wrap {
             background: linear-gradient(145deg, #111, #080808);
             padding: 40px;
@@ -152,9 +149,10 @@
             border-radius: 12px;
             color: #fff;
             font-size: 1rem;
+            box-sizing: border-box; /* Ensures padding doesn't break layout */
         }
 
-        input:focus {
+        input:focus, textarea:focus {
             border-color: var(--thc-green);
             outline: none;
         }
@@ -179,6 +177,11 @@
             transform: scale(0.98);
         }
 
+        /* Hidden Honeypot Field */
+        .gotcha {
+            display: none;
+        }
+
         footer {
             text-align: center;
             padding: 50px;
@@ -198,7 +201,7 @@
     </div>
 
     <header>
-        <h1>Ncredible  <span>Edibles</span></h1>
+        <h1>Ncredible <span>Edibles</span></h1>
         <div class="tagline">Premium THC Infusions</div>
     </header>
 
@@ -230,18 +233,22 @@
             <h2>Secure Inquiry</h2>
             <p>Ready to experience the best? Send us a message for ordering details and local delivery zones.</p>
             
-            <form>
+            <form action="https://formspree.io/f/xdalbbrg" method="POST">
+                <input type="hidden" name="_subject" value="New Ncredible Edibles Order Inquiry!">
+                
+                <input type="text" name="_gotcha" class="gotcha">
+
                 <div class="input-group">
                     <label>Preferred Name</label>
-                    <input type="text" placeholder="How should we address you?">
+                    <input type="text" name="name" placeholder="How should we address you?" required>
                 </div>
                 <div class="input-group">
                     <label>Contact Method</label>
-                    <input type="text" placeholder="Email or Phone Number">
+                    <input type="text" name="contact" placeholder="Email or Phone Number" required>
                 </div>
                 <div class="input-group">
                     <label>Your Inquiry</label>
-                    <textarea rows="4" placeholder="Which products are you interested in?"></textarea>
+                    <textarea name="message" rows="4" placeholder="Which products are you interested in?" required></textarea>
                 </div>
                 <button type="submit" class="btn-send">Send Inquiry</button>
             </form>
@@ -250,7 +257,7 @@
     </div>
 
     <footer>
-        &copy; 2020 Ncredible Edibles. All items are produced in compliance with local regulations.
+        &copy; 2026 Ncredible Edibles. All items are produced in compliance with local regulations.
     </footer>
 
 </body>
