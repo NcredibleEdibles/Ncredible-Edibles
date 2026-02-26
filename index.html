@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>N'credible Edibles | Elevated Confections</title>
+    <title>Ncredible Edibles | Elevated Confections</title>
     <style>
         :root {
             --thc-green: #39ff14;
@@ -37,32 +37,57 @@
             text-align: center;
             padding: 60px 20px;
             border-bottom: 1px solid #222;
+            background: radial-gradient(circle at top, #1a1a1a 0%, #0a0a0a 100%);
         }
 
-        h1 {
+        /* NEON FLICKER LOGO */
+        .main-title {
             color: #fff;
-            font-size: 3rem;
+            font-size: 3.5rem;
             margin: 0;
-            letter-spacing: -1px;
+            letter-spacing: -2px;
+            text-transform: uppercase;
+            font-weight: 900;
         }
 
-        h1 span { color: var(--thc-green); }
+        .flicker {
+            animation: neon-flicker 3s infinite alternate;
+            color: var(--thc-green);
+            text-shadow: 0 0 10px var(--thc-green), 0 0 20px var(--thc-green);
+        }
+
+        .main-title span { 
+            color: var(--ui-black);
+            -webkit-text-stroke: 1.5px var(--alert-red);
+            text-shadow: 0 0 15px var(--alert-red);
+            margin-left: 10px;
+        }
+
+        @keyframes neon-flicker {
+            0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% {
+                text-shadow: 0 0 10px var(--thc-green), 0 0 20px var(--thc-green);
+                opacity: 1;
+            }
+            20%, 24%, 55% {
+                text-shadow: none;
+                opacity: 0.4;
+            }
+        }
 
         .tagline {
             color: #666;
             font-size: 1rem;
             margin-top: 10px;
             text-transform: uppercase;
-            letter-spacing: 3px;
+            letter-spacing: 5px;
         }
 
-        /* Community Statement under Header */
         .community-statement {
             margin-top: 20px;
-            font-size: 1.1rem;
+            font-size: 1.2rem;
             color: #fff;
-            font-weight: 500;
-            text-shadow: 0 0 10px rgba(57, 255, 20, 0.5); /* The Glow */
+            font-weight: 600;
+            text-shadow: 0 0 10px rgba(57, 255, 20, 0.5);
         }
 
         .container {
@@ -105,9 +130,7 @@
             border-bottom: 2px solid var(--alert-red);
         }
 
-        .details {
-            padding: 25px;
-        }
+        .details { padding: 25px; }
 
         .potency-badge {
             background: rgba(255, 7, 58, 0.15);
@@ -119,16 +142,8 @@
             text-transform: uppercase;
         }
 
-        .product-name {
-            font-size: 1.8rem;
-            margin: 15px 0 10px 0;
-        }
-
-        .price {
-            color: var(--thc-green);
-            font-size: 1.4rem;
-            font-weight: bold;
-        }
+        .product-name { font-size: 1.8rem; margin: 15px 0 10px 0; }
+        .price { color: var(--thc-green); font-size: 1.4rem; font-weight: bold; }
 
         /* Contact Section */
         .contact-wrap {
@@ -138,21 +153,9 @@
             border: 1px solid #333;
         }
 
-        .contact-wrap h2 {
-            color: var(--thc-green);
-            margin-top: 0;
-        }
-
-        .input-group {
-            margin-bottom: 20px;
-        }
-
-        label {
-            display: block;
-            margin-bottom: 8px;
-            font-size: 0.85rem;
-            color: #888;
-        }
+        .contact-wrap h2 { color: var(--thc-green); margin-top: 0; }
+        .input-group { margin-bottom: 20px; }
+        label { display: block; margin-bottom: 8px; font-size: 0.85rem; color: #888; }
 
         input, textarea {
             width: 100%;
@@ -165,10 +168,7 @@
             box-sizing: border-box;
         }
 
-        input:focus, textarea:focus {
-            border-color: var(--thc-green);
-            outline: none;
-        }
+        input:focus, textarea:focus { border-color: var(--thc-green); outline: none; }
 
         .btn-send {
             background: var(--alert-red);
@@ -182,15 +182,11 @@
             cursor: pointer;
             transition: 0.3s;
             text-transform: uppercase;
-            letter-spacing: 1px;
         }
 
-        .btn-send:hover {
-            background: #cc0033;
-            transform: scale(0.98);
-        }
+        .btn-send:hover { background: #cc0033; transform: scale(0.98); }
 
-        /* Success Popup Styles */
+        /* Success Popup */
         #success-modal {
             display: none;
             position: fixed;
@@ -212,7 +208,6 @@
         }
 
         .modal-content h2 { color: var(--thc-green); }
-        
         .close-btn {
             margin-top: 20px;
             background: transparent;
@@ -223,18 +218,10 @@
             cursor: pointer;
         }
 
-        footer {
-            text-align: center;
-            padding: 50px;
-            color: #444;
-            font-size: 0.8rem;
-        }
-
+        footer { text-align: center; padding: 50px; color: #444; font-size: 0.8rem; }
         .gotcha { display: none; }
 
-        @media (max-width: 768px) {
-            .product-grid { grid-template-columns: 1fr; }
-        }
+        @media (max-width: 768px) { .product-grid { grid-template-columns: 1fr; } }
     </style>
 </head>
 <body>
@@ -242,7 +229,7 @@
     <div id="success-modal">
         <div class="modal-content">
             <h2>Inquiry Sent!</h2>
-            <p>We've received your request. An agent will reach out to you shortly via your preferred contact method.</p>
+            <p>We've received your request. An agent will reach out shortly.</p>
             <button class="close-btn" onclick="closeModal()">Close Window</button>
         </div>
     </div>
@@ -252,15 +239,14 @@
     </div>
 
     <header>
-        <h1>N'credible <span>Edibles</span></h1>
-        <div class="tagline">Premium THC Infusions</div>
+        <h1 class="main-title"><span class="flicker">N'CREDIBLE</span><span>EDIBLES</span></h1>
+        <div class="tagline">Elevated Confections</div>
         <div class="community-statement">
             Black-Owned ✊🏾 | LGBTQ+ Friendly 🏳️‍🌈
         </div>
     </header>
 
     <div class="container">
-        
         <div class="product-grid">
             <div class="edible-card">
                 <div class="img-box">IMAGE: FLAVOR_01</div>
@@ -268,50 +254,45 @@
                     <span class="potency-badge">High Potency</span>
                     <h2 class="product-name">Atomic Gummies</h2>
                     <div class="price">$35.00</div>
-                    <p>Shatter-infused sour rings with a 50mg kick per piece. Clean, fast-acting, and delicious.</p>
+                    <p>Shatter-infused sour rings with a 50mg kick per piece.</p>
                 </div>
             </div>
-
             <div class="edible-card">
                 <div class="img-box">IMAGE: FLAVOR_02</div>
                 <div class="details">
                     <span class="potency-badge">Full Spectrum</span>
                     <h2 class="product-name">Midnight Fudge</h2>
                     <div class="price">$40.00</div>
-                    <p>Indica-dominant dark chocolate. Crafted for deep sleep and full-body relaxation.</p>
+                    <p>Indica-dominant dark chocolate for deep relaxation.</p>
                 </div>
             </div>
         </div>
 
         <div class="contact-wrap">
             <h2>Secure Inquiry</h2>
-            <p>Ready to experience the best? Send us a message for ordering details and local delivery zones.</p>
-            
             <form action="https://formspree.io/f/xdalbbrg" method="POST">
                 <input type="hidden" name="_next" value="https://ncredibleedibles.github.io/Ncredible-Edibles/?success=true">
                 <input type="hidden" name="_subject" value="New Ncredible Edibles Order Inquiry!">
                 <input type="text" name="_gotcha" class="gotcha">
-
                 <div class="input-group">
                     <label>Preferred Name</label>
-                    <input type="text" name="name" placeholder="How should we address you?" required>
+                    <input type="text" name="name" required>
                 </div>
                 <div class="input-group">
                     <label>Contact Method</label>
-                    <input type="text" name="contact" placeholder="Email or Phone Number" required>
+                    <input type="text" name="contact" required>
                 </div>
                 <div class="input-group">
                     <label>Your Inquiry</label>
-                    <textarea name="message" rows="4" placeholder="Which products are you interested in?" required></textarea>
+                    <textarea name="message" rows="4" required></textarea>
                 </div>
                 <button type="submit" class="btn-send">Send Inquiry</button>
             </form>
         </div>
-
     </div>
 
     <footer>
-        &copy; 2026 Ncredible Edibles. All items are produced in compliance with local regulations.
+        &copy; 2026 Ncredible Edibles. All items produced in compliance with local regulations.
     </footer>
 
     <script>
@@ -322,11 +303,7 @@
                 window.history.replaceState({}, document.title, window.location.pathname);
             }
         }
-
-        function closeModal() {
-            document.getElementById('success-modal').style.display = 'none';
-        }
+        function closeModal() { document.getElementById('success-modal').style.display = 'none'; }
     </script>
-
 </body>
 </html>
