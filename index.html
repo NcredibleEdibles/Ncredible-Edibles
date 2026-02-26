@@ -18,9 +18,9 @@
             font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
             margin: 0;
             padding: 0;
+            overflow-x: hidden;
         }
 
-        /* Top Warning Bar */
         .legal-bar {
             background: var(--alert-red);
             color: #000;
@@ -38,13 +38,7 @@
             border-bottom: 1px solid #222;
         }
 
-        h1 {
-            color: #fff;
-            font-size: 3rem;
-            margin: 0;
-            letter-spacing: -1px;
-        }
-
+        h1 { color: #fff; font-size: 3rem; margin: 0; letter-spacing: -1px; }
         h1 span { color: var(--thc-green); }
 
         .tagline {
@@ -61,7 +55,6 @@
             padding: 0 20px;
         }
 
-        /* Product Display */
         .product-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -95,9 +88,7 @@
             border-bottom: 2px solid var(--alert-red);
         }
 
-        .details {
-            padding: 25px;
-        }
+        .details { padding: 25px; }
 
         .potency-badge {
             background: rgba(255, 7, 58, 0.15);
@@ -109,18 +100,9 @@
             text-transform: uppercase;
         }
 
-        .product-name {
-            font-size: 1.8rem;
-            margin: 15px 0 10px 0;
-        }
+        .product-name { font-size: 1.8rem; margin: 15px 0 10px 0; }
+        .price { color: var(--thc-green); font-size: 1.4rem; font-weight: bold; }
 
-        .price {
-            color: var(--thc-green);
-            font-size: 1.4rem;
-            font-weight: bold;
-        }
-
-        /* Contact Section */
         .contact-wrap {
             background: linear-gradient(145deg, #111, #080808);
             padding: 40px;
@@ -128,21 +110,10 @@
             border: 1px solid #333;
         }
 
-        .contact-wrap h2 {
-            color: var(--thc-green);
-            margin-top: 0;
-        }
+        .contact-wrap h2 { color: var(--thc-green); margin-top: 0; }
 
-        .input-group {
-            margin-bottom: 20px;
-        }
-
-        label {
-            display: block;
-            margin-bottom: 8px;
-            font-size: 0.85rem;
-            color: #888;
-        }
+        .input-group { margin-bottom: 20px; }
+        label { display: block; margin-bottom: 8px; font-size: 0.85rem; color: #888; }
 
         input, textarea {
             width: 100%;
@@ -152,13 +123,10 @@
             border-radius: 12px;
             color: #fff;
             font-size: 1rem;
-            box-sizing: border-box; /* Fixes mobile overflow */
+            box-sizing: border-box;
         }
 
-        input:focus, textarea:focus {
-            border-color: var(--thc-green);
-            outline: none;
-        }
+        input:focus, textarea:focus { border-color: var(--thc-green); outline: none; }
 
         .btn-send {
             background: var(--alert-red);
@@ -172,32 +140,59 @@
             cursor: pointer;
             transition: 0.3s;
             text-transform: uppercase;
-            letter-spacing: 1px;
         }
 
-        .btn-send:hover {
-            background: #cc0033;
-            transform: scale(0.98);
-        }
+        .btn-send:hover { background: #cc0033; transform: scale(0.98); }
 
-        /* Hidden Honeypot */
-        .gotcha {
+        .gotcha { display: none; }
+
+        /* --- SUCCESS POPUP STYLES --- */
+        #success-modal {
             display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.9);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
         }
 
-        footer {
+        .modal-content {
+            background: var(--card-bg);
+            padding: 40px;
+            border-radius: 20px;
+            border: 2px solid var(--thc-green);
             text-align: center;
-            padding: 50px;
-            color: #444;
-            font-size: 0.8rem;
+            max-width: 400px;
+            box-shadow: 0 0 30px rgba(57, 255, 20, 0.2);
         }
 
-        @media (max-width: 768px) {
-            .product-grid { grid-template-columns: 1fr; }
+        .modal-content h2 { color: var(--thc-green); }
+        .close-btn {
+            margin-top: 20px;
+            background: transparent;
+            color: #888;
+            border: 1px solid #444;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
         }
+        .close-btn:hover { color: #fff; border-color: #fff; }
+
+        footer { text-align: center; padding: 50px; color: #444; font-size: 0.8rem; }
+
+        @media (max-width: 768px) { .product-grid { grid-template-columns: 1fr; } }
     </style>
 </head>
 <body>
+
+    <div id="success-modal">
+        <div class="modal-content">
+            <h2>Inquiry Sent!</h2>
+            <p>We've received your request. An agent will reach out to you shortly via your preferred contact method.</p>
+            <button class="close-btn" onclick="closeModal()">Close</button>
+        </div>
+    </div>
 
     <div class="legal-bar">
         21+ ONLY | Please Consume Responsibly | Keep Out of Reach of Children
@@ -209,7 +204,6 @@
     </header>
 
     <div class="container">
-        
         <div class="product-grid">
             <div class="edible-card">
                 <div class="img-box">IMAGE: FLAVOR_01</div>
@@ -220,7 +214,6 @@
                     <p>Shatter-infused sour rings with a 50mg kick per piece. Clean, fast-acting, and delicious.</p>
                 </div>
             </div>
-
             <div class="edible-card">
                 <div class="img-box">IMAGE: FLAVOR_02</div>
                 <div class="details">
@@ -237,10 +230,8 @@
             <p>Ready to experience the best? Send us a message for ordering details and local delivery zones.</p>
             
             <form action="https://formspree.io/f/xdalbbrg" method="POST">
-                <input type="hidden" name="_next" value="https://ncredibleedibles.github.io/Ncredible-Edibles/">
-                
+                <input type="hidden" name="_next" value="https://ncredibleedibles.github.io/Ncredible-Edibles/?success=true">
                 <input type="hidden" name="_subject" value="New Ncredible Edibles Order Inquiry!">
-                
                 <input type="text" name="_gotcha" class="gotcha">
 
                 <div class="input-group">
@@ -258,12 +249,27 @@
                 <button type="submit" class="btn-send">Send Inquiry</button>
             </form>
         </div>
-
     </div>
 
     <footer>
         &copy; 2026 Ncredible Edibles. All items are produced in compliance with local regulations.
     </footer>
+
+    <script>
+        // Check if the URL has ?success=true
+        window.onload = function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.get('success') === 'true') {
+                document.getElementById('success-modal').style.display = 'flex';
+                // Remove the parameter from the URL bar without refreshing (clean look)
+                window.history.replaceState({}, document.title, window.location.pathname);
+            }
+        }
+
+        function closeModal() {
+            document.getElementById('success-modal').style.display = 'none';
+        }
+    </script>
 
 </body>
 </html>
