@@ -20,6 +20,7 @@
             padding: 0;
         }
 
+        /* Top Warning Bar */
         .legal-bar {
             background: var(--alert-red);
             color: #000;
@@ -60,6 +61,7 @@
             padding: 0 20px;
         }
 
+        /* Product Display */
         .product-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -118,6 +120,7 @@
             font-weight: bold;
         }
 
+        /* Contact Section */
         .contact-wrap {
             background: linear-gradient(145deg, #111, #080808);
             padding: 40px;
@@ -149,7 +152,7 @@
             border-radius: 12px;
             color: #fff;
             font-size: 1rem;
-            box-sizing: border-box; /* Ensures padding doesn't break layout */
+            box-sizing: border-box; /* Fixes mobile overflow */
         }
 
         input:focus, textarea:focus {
@@ -177,7 +180,7 @@
             transform: scale(0.98);
         }
 
-        /* Hidden Honeypot Field */
+        /* Hidden Honeypot */
         .gotcha {
             display: none;
         }
@@ -234,6 +237,8 @@
             <p>Ready to experience the best? Send us a message for ordering details and local delivery zones.</p>
             
             <form action="https://formspree.io/f/xdalbbrg" method="POST">
+                <input type="hidden" name="_next" value="https://ncredibleedibles.github.io/Ncredible-Edibles/">
+                
                 <input type="hidden" name="_subject" value="New Ncredible Edibles Order Inquiry!">
                 
                 <input type="text" name="_gotcha" class="gotcha">
