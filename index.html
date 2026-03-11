@@ -10,8 +10,8 @@
             --neon-green: #39ff14;    
             --alert-red: #ff073a;      
             --ui-black: #020202;
-            --glass-panel: rgba(5, 5, 5, 0.88);
-            --border-line: rgba(255, 255, 255, 0.1);
+            --glass-panel: rgba(7, 7, 7, 0.94);
+            --border-line: rgba(255, 255, 255, 0.12);
         }
 
         * { box-sizing: border-box; transition: 0.4s cubic-bezier(0.2, 0, 0.2, 1); }
@@ -26,50 +26,60 @@
             overflow: hidden; 
         }
 
-        /* 8-SECOND PULSING SMOKE */
+        /* BACKGROUND SYSTEM */
+        .bg-master-container {
+            position: fixed;
+            top: 0; left: 0; width: 100vw; height: 100vh;
+            z-index: -5;
+            background: #000;
+        }
+
+        /* GEOMETRIC SQUARES */
+        .square-pattern {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: -1;
+            background-image: radial-gradient(rgba(255, 255, 255, 0.25) 1.5px, transparent 1.5px);
+            background-size: 25px 25px; 
+            pointer-events: none;
+        }
+
+        /* PULSING SMOKE */
         #video-layer {
             position: fixed;
             top: 0; left: 0; width: 100vw; height: 100vh;
-            z-index: -1;
-            background: transparent;
+            z-index: -3;
             opacity: 0;
             pointer-events: none;
             transition: opacity 2s ease-in-out;
         }
-
+        
         @keyframes smokePulse {
             0%, 100% { transform: scale(1.6); opacity: 0.7; }
             50% { transform: scale(1.7); opacity: 1; }
         }
-
         .pulsing-smoke { animation: smokePulse 4s ease-in-out infinite; }
-
         #video-layer iframe { width: 100vw; height: 100vh; border: none; }
 
-        /* NEON BACKGROUND */
         .color-overlay {
             position: fixed;
             top: 0; left: 0; width: 100vw; height: 100vh;
-            z-index: -2;
+            z-index: -4;
             pointer-events: none;
-            overflow: hidden;
-            background: #000;
+            background: radial-gradient(circle at center, transparent 20%, rgba(0,0,0,0.85) 100%);
         }
 
         .glow-blob {
-            position: absolute;
-            width: 60vw; height: 60vw;
-            filter: blur(140px);
-            opacity: 0.35;
-            border-radius: 50%;
-            animation: move-glow 20s infinite alternate;
+            position: absolute; width: 65vw; height: 65vw;
+            filter: blur(130px); opacity: 0.4; border-radius: 50%;
+            animation: move-glow 25s infinite alternate;
         }
-        .glow-green { background: var(--neon-green); top: -10%; left: -10%; }
-        .glow-red { background: var(--alert-red); bottom: -10%; right: -10%; animation-delay: -5s; }
+        .glow-green { background: var(--neon-green); top: -10%; left: -15%; }
+        .glow-red { background: var(--alert-red); bottom: -10%; right: -15%; animation-delay: -5s; }
 
         @keyframes move-glow {
             from { transform: translate(0,0) scale(1); }
-            to { transform: translate(100px, 100px) scale(1.2); }
+            to { transform: translate(70px, 70px) scale(1.15); }
         }
 
         /* SIDEBAR */
@@ -78,21 +88,21 @@
             display: flex; flex-direction: column;
             justify-content: center; align-items: center;
             background: var(--glass-panel);
-            backdrop-filter: blur(50px);
+            backdrop-filter: blur(40px);
             border-right: 1px solid var(--border-line);
             padding: 60px; z-index: 10;
-            text-align: center; position: relative;
+            text-align: center;
         }
 
         .logo-hero {
-            width: 100%; max-width: 500px;
-            filter: drop-shadow(0 0 25px rgba(0, 242, 255, 0.6));
+            width: 100%; max-width: 480px;
+            filter: drop-shadow(0 0 35px rgba(0, 242, 255, 0.6));
             animation: float 5s infinite ease-in-out;
         }
 
         @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-15px); } }
 
-        /* MAIN CONTENT */
+        /* PRODUCT CARDS */
         .main-content {
             width: 55%; padding: 100px 60px;
             overflow-y: scroll; scrollbar-width: none;
@@ -100,132 +110,152 @@
         .main-content::-webkit-scrollbar { display: none; }
 
         .product-card {
-            background: rgba(255, 255, 255, 0.03);
+            background: rgba(0, 0, 0, 0.25); 
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 26px; padding: 45px;
+            margin-bottom: 45px; backdrop-filter: blur(12px);
+        }
+
+        .product-card:hover { 
+            border-color: var(--neon-green); 
+            background: rgba(57, 255, 20, 0.03);
+            transform: translateY(-5px) translateX(8px);
+        }
+
+        .product-img-box {
+            width: 100%; height: 300px;
+            background: rgba(0, 0, 0, 0.4); border-radius: 18px;
+            margin-bottom: 30px; overflow: hidden;
             border: 1px solid var(--border-line);
-            border-radius: 20px; padding: 40px;
-            margin-bottom: 30px; backdrop-filter: blur(15px);
+            position: relative;
+        }
+        .product-img-box img {
+            width: 100%; height: 100%; object-fit: cover;
+            transition: transform 0.8s ease;
         }
 
         .btn-order {
             background: transparent; border: 2px solid var(--neon-green);
-            color: var(--neon-green); padding: 12px 30px;
+            color: var(--neon-green); padding: 15px 40px;
             font-weight: 900; text-transform: uppercase;
-            letter-spacing: 2px; border-radius: 4px; cursor: pointer;
-            margin-top: 20px;
+            letter-spacing: 3px; border-radius: 8px; cursor: pointer; margin-top: 20px;
+        }
+        .btn-order:hover { background: var(--neon-green); color: #000; box-shadow: 0 0 25px var(--neon-green); }
+
+        /* NOTIFICATIONS & MODAL */
+        #success-toast {
+            position: fixed; top: -110px; left: 50%;
+            transform: translateX(-50%); background: var(--alert-red);
+            color: white; padding: 22px 55px; border-radius: 0 0 20px 20px;
+            font-weight: 900; text-transform: uppercase; letter-spacing: 4px;
+            z-index: 100000; transition: 0.6s cubic-bezier(0.18, 0.89, 0.32, 1.28);
+            box-shadow: 0 5px 30px rgba(255, 7, 58, 0.4);
         }
 
-        .btn-order:hover { background: var(--neon-green); color: #000; box-shadow: 0 0 20px var(--neon-green); }
-
-        /* CONTACT SECTION */
-        .contact-section {
-            margin-top: 80px;
-            padding: 60px 40px;
-            background: rgba(255, 7, 58, 0.03);
-            border: 1px solid var(--alert-red);
-            border-radius: 24px;
-            box-shadow: 0 0 30px rgba(255, 7, 58, 0.1);
-        }
-
-        .contact-section h2 {
-            color: var(--alert-red);
-            text-transform: uppercase;
-            letter-spacing: 5px;
-            margin-bottom: 30px;
-        }
-
-        input, textarea {
-            width: 100%; padding: 18px; margin-bottom: 15px;
-            background: #000; border: 1px solid #333;
-            color: #fff; border-radius: 10px; font-family: inherit;
-        }
-
-        input:focus { border-color: var(--alert-red); outline: none; }
-
-        .btn-submit {
-            background: var(--alert-red); color: #fff;
-            border: none; width: 100%; padding: 20px;
-            font-weight: 900; text-transform: uppercase; 
-            letter-spacing: 3px; border-radius: 12px; cursor: pointer;
-        }
-
-        /* POPUP MODAL */
         .modal {
-            display: none;
-            position: fixed;
+            display: none; position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.97);
-            z-index: 99999; 
+            background: rgba(0,0,0,0.98); z-index: 99999;
             align-items: center; justify-content: center;
         }
         .modal-box {
             background: #050505; border: 2px solid var(--alert-red);
-            padding: 50px; border-radius: 20px; text-align: center; max-width: 450px;
+            padding: 55px; border-radius: 25px; text-align: center; max-width: 460px;
         }
 
         @media (max-width: 900px) {
             body { flex-direction: column; overflow-y: auto; height: auto; }
             .sidebar, .main-content { width: 100%; height: auto; }
-            .sidebar { padding: 60px 20px; border-right: none; border-bottom: 1px solid var(--border-line); }
+            .sidebar { padding: 80px 20px; border-right: none; }
+            .product-img-box { height: 240px; }
+            .main-content { padding: 40px 20px; }
         }
     </style>
 </head>
 <body>
 
-<div id="video-layer">
-    <div class="pulsing-smoke">
-        <iframe src="https://streamable.com/e/51n2fx?autoplay=1&muted=1&loop=1&controls=0" allow="autoplay"></iframe>
-    </div>
-</div>
+<div id="success-toast">Transmission Complete</div>
 
-<div class="color-overlay">
-    <div class="glow-blob glow-green"></div>
-    <div class="glow-blob glow-red"></div>
+<div class="bg-master-container">
+    <div class="square-pattern"></div>
+    <div id="video-layer">
+        <div class="pulsing-smoke">
+            <iframe src="https://streamable.com/e/51n2fx?autoplay=1&muted=1&loop=1&controls=0" allow="autoplay"></iframe>
+        </div>
+    </div>
+    <div class="color-overlay">
+        <div class="glow-blob glow-green"></div>
+        <div class="glow-blob glow-red"></div>
+    </div>
 </div>
 
 <div class="sidebar">
     <img src="https://i.postimg.cc/CLcNz6yq/transparentlogov1-removebg-preview.png" alt="Logo" class="logo-hero">
-    <div style="margin-top: 30px; letter-spacing: 12px; text-transform: uppercase; font-size: 0.7rem; color: var(--neon-blue); font-weight: 800;">Elevated Confections</div>
+    <div style="margin-top: 35px; letter-spacing: 14px; text-transform: uppercase; font-size: 0.75rem; color: var(--neon-blue); font-weight: 800;">Elevated Confections</div>
 </div>
 
 <div class="main-content">
     <div class="product-card">
-        <span style="color: var(--alert-red); font-weight: 900; font-size: 0.7rem;">[ 50MG RESERVE ]</span>
-        <h3 style="font-size: 2.2rem; margin: 15px 0;">Atomic Gummies</h3>
-        <p style="color: #888;">High-potency rings infused with pure distillate. Sharp and clean.</p>
+        <div class="product-img-box"><img src="https://via.placeholder.com/600x400/111/39ff14?text=Atomic+Gummies" alt="Atomic Gummies"></div>
+        <span style="color: var(--alert-red); font-weight: 900; font-size: 0.8rem; letter-spacing: 2px;">[ 50MG RESERVE ]</span>
+        <h3 style="font-size: 2.4rem; margin: 15px 0;">Atomic Gummies</h3>
+        <p style="color: #bbb; line-height: 1.7;">High-potency rings infused with pure distillate.</p>
         <button class="btn-order" onclick="scrollToContact('Atomic Gummies')">Request Allocation</button>
     </div>
 
     <div class="product-card">
-        <span style="color: var(--neon-blue); font-weight: 900; font-size: 0.7rem;">[ 100MG INDICA ]</span>
-        <h3 style="font-size: 2.2rem; margin: 15px 0;">Midnight Fudge</h3>
-        <p style="color: #888;">Small-batch Belgian chocolate. Crafted for deep restoration.</p>
+        <div class="product-img-box"><img src="https://via.placeholder.com/600x400/111/00f2ff?text=Midnight+Fudge" alt="Midnight Fudge"></div>
+        <span style="color: var(--neon-blue); font-weight: 900; font-size: 0.8rem; letter-spacing: 2px;">[ 100MG INDICA ]</span>
+        <h3 style="font-size: 2.4rem; margin: 15px 0;">Midnight Fudge</h3>
+        <p style="color: #bbb; line-height: 1.7;">Small-batch Belgian chocolate for deep restoration.</p>
         <button class="btn-order" onclick="scrollToContact('Midnight Fudge')">Request Allocation</button>
     </div>
 
-    <div class="contact-section" id="contact">
-        <h2>Secure Inquiry</h2>
-        <form action="https://formspree.io/f/xdalbbrg" method="POST">
-            <input type="text" name="name" placeholder="Full Name" required>
-            <input type="text" name="handle" placeholder="Telegram / Email" required>
-            <textarea name="message" id="contact-msg" rows="4" placeholder="Your specific request..."></textarea>
-            <button type="submit" class="btn-submit">Transmit Request</button>
+    <div id="contact" style="margin-top: 60px; padding: 50px; border: 1px solid var(--alert-red); border-radius: 25px; background: rgba(255, 7, 58, 0.04);">
+        <h2 style="color: var(--alert-red); text-transform: uppercase; letter-spacing: 6px;">Secure Inquiry</h2>
+        <form id="contact-form" action="https://formspree.io/f/xdalbbrg" method="POST">
+            <input type="text" name="name" placeholder="Full Name" required style="width:100%; padding:18px; margin-bottom:18px; background:#000; border:1px solid #333; color:white; border-radius:10px;">
+            <input type="text" name="handle" placeholder="Telegram / Email" required style="width:100%; padding:18px; margin-bottom:18px; background:#000; border:1px solid #333; color:white; border-radius:10px;">
+            <textarea name="message" id="contact-msg" rows="5" placeholder="Request details..." style="width:100%; padding:18px; margin-bottom:18px; background:#000; border:1px solid #333; color:white; border-radius:10px; font-family: inherit;"></textarea>
+            <button type="submit" style="background:var(--alert-red); color:white; border:none; width:100%; padding:22px; font-weight:900; text-transform:uppercase; letter-spacing:3px; border-radius:12px; cursor:pointer;">Transmit Request</button>
         </form>
     </div>
 </div>
 
 <div id="popup" class="modal">
     <div class="modal-box">
-        <h2 style="color: var(--alert-red); text-transform: uppercase; letter-spacing: 3px;">The Inner Circle</h2>
-        <p style="color: #666; margin-bottom: 25px;">Join for private drops and menu updates.</p>
-        <form action="https://formspree.io/f/xdalbbrg" method="POST">
-            <input type="email" name="email" placeholder="Email Address" required>
-            <button type="submit" style="background:var(--alert-red); color:white; border:none; width:100%; padding:15px; font-weight:900; cursor:pointer; border-radius: 8px;">Join Vault</button>
+        <h2 style="color: var(--alert-red); text-transform: uppercase; letter-spacing: 4px;">The Inner Circle</h2>
+        <p style="color: #777; margin-bottom: 30px;">Access private drops and restricted updates from the vault.</p>
+        <form id="popup-form" action="https://formspree.io/f/xdalbbrg" method="POST">
+            <input type="email" name="email" placeholder="Email Address" required style="width:100%; padding:20px; margin-bottom:20px; background:#000; border:1px solid #333; color:white; border-radius:12px;">
+            <button type="submit" style="background:var(--alert-red); color:white; border:none; width:100%; padding:20px; font-weight:900; cursor:pointer; border-radius: 12px; text-transform:uppercase; letter-spacing: 2px;">Join Vault</button>
         </form>
-        <button onclick="closePop()" style="background:none; border:none; color:#444; margin-top:20px; cursor:pointer; font-weight:bold; font-size: 0.7rem;">DISMISS</button>
+        <button onclick="closePop()" style="background:none; border:none; color:#444; margin-top:25px; cursor:pointer; font-weight:bold; font-size: 0.8rem; letter-spacing: 1px;">DISMISS</button>
     </div>
 </div>
 
 <script>
+    const forms = [document.getElementById('contact-form'), document.getElementById('popup-form')];
+    forms.forEach(form => {
+        form.addEventListener("submit", async function(e) {
+            e.preventDefault();
+            const data = new FormData(e.target);
+            fetch(e.target.action, { method: form.method, body: data, headers: { 'Accept': 'application/json' } }).then(res => {
+                if (res.ok) {
+                    showToast();
+                    form.reset();
+                    if(form.id === 'popup-form') closePop();
+                }
+            });
+        });
+    });
+
+    function showToast() {
+        const toast = document.getElementById('success-toast');
+        toast.style.top = "0";
+        setTimeout(() => { toast.style.top = "-110px"; }, 4000);
+    }
+
     function startSmokeTimer() {
         const smokeLayer = document.getElementById('video-layer');
         smokeLayer.style.opacity = '1';
@@ -236,21 +266,18 @@
     }
 
     function scrollToContact(item) {
-        document.getElementById('contact-msg').value = "I am inquiring about: " + item;
+        document.getElementById('contact-msg').value = "Inquiry: " + item;
         document.getElementById('contact').scrollIntoView({ behavior: 'smooth' });
     }
 
     window.onload = function() {
-        if (!sessionStorage.getItem('seen')) {
-            setTimeout(() => { document.getElementById('popup').style.display = 'flex'; }, 2000);
-        } else {
-            startSmokeTimer();
-        }
+        setTimeout(() => { 
+            document.getElementById('popup').style.display = 'flex'; 
+        }, 2000);
     }
 
     function closePop() {
         document.getElementById('popup').style.display = 'none';
-        sessionStorage.setItem('seen', 'true');
         startSmokeTimer();
     }
 </script>
