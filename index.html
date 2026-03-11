@@ -13,7 +13,7 @@
         }
 
         body {
-            background-color: var(--ui-black);
+            background: radial-gradient(circle at center, var(--thc-green), var(--ui-black));
             color: #e0e0e0;
             font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
             margin: 0;
@@ -37,7 +37,7 @@
             text-align: center;
             padding: 60px 20px;
             border-bottom: 1px solid #222;
-            background: radial-gradient(circle at top, #1a1a1a 0%, #0a0a0a 100%);
+            background: linear-gradient(45deg, var(--thc-green), var(--alert-red));
         }
 
         /* NEON FLICKER LOGO */
@@ -74,7 +74,7 @@
         }
 
         .tagline {
-            color: #888;
+            color: #000;
             font-size: 1rem;
             margin-top: 10px;
             text-transform: uppercase;
@@ -101,6 +101,8 @@
             grid-template-columns: 1fr 1fr;
             gap: 30px;
             margin-bottom: 60px;
+            background: radial-gradient(circle, var(--thc-green) 20%, var(--card-bg) 80%);
+            border-radius: 20px;
         }
 
         .edible-card {
@@ -263,7 +265,7 @@
 
     <div id="newsletter-modal" class="modal-overlay">
         <div class="modal-content">
-            <h2>Join the Inner Circle</h2>
+            <h2>Join the Ncredible Circle</h2>
             <p>Drop your email for exclusive drops and elevated discounts.</p>
             
             <form id="newsletter-form" action="https://formspree.io/f/xdalbbrg" method="POST">
@@ -360,7 +362,6 @@
                 document.getElementById('success-modal').style.display = 'flex';
                 window.history.replaceState({}, document.title, window.location.pathname);
             } else {
-                // Show Newsletter Popup after 5 seconds
                 setTimeout(() => {
                     if (!sessionStorage.getItem('newsletterClosed')) {
                         document.getElementById('newsletter-modal').style.display = 'flex';
