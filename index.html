@@ -3,311 +3,273 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ncredible Edibles | Elevated Confections</title>
+    <title>Ncredible Edibles | Premium Concept</title>
     <style>
         :root {
             --thc-green: #39ff14;
             --alert-red: #ff073a;
             --ui-black: #050505;
-            --card-bg: rgba(15, 15, 15, 0.85);
-            --text-gray: #a0a0a0;
+            --glass: rgba(20, 20, 20, 0.7);
             --glass-border: rgba(255, 255, 255, 0.1);
         }
 
-        * { box-sizing: border-box; }
+        * { box-sizing: border-box; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
 
         body {
             background-color: var(--ui-black);
             color: #ffffff;
             font-family: 'Inter', sans-serif;
             margin: 0;
-            overflow-x: hidden;
-            min-height: 100vh;
+            display: flex;
+            height: 100vh;
+            overflow: hidden; 
         }
 
-        /* --- ABSTRACT MESH GRADIENT --- */
+        /* --- BACKGROUND MESH --- */
         .bg-mesh {
             position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
+            top: 0; left: 0; width: 100vw; height: 100vh;
             z-index: -1;
-            filter: blur(100px);
-            opacity: 0.5;
+            filter: blur(80px);
+            opacity: 0.4;
         }
 
         .blob {
             position: absolute;
             border-radius: 50%;
-            animation: move 20s infinite alternate;
+            animation: move 25s infinite alternate;
         }
-
-        .blob-1 { width: 500px; height: 500px; background: #1a3c15; top: -5%; left: -5%; }
-        .blob-2 { width: 600px; height: 600px; background: #3d0a15; bottom: -5%; right: -5%; animation-delay: -5s; }
-        .blob-3 { width: 400px; height: 400px; background: #1a2a44; top: 30%; left: 40%; animation-delay: -10s; }
+        .blob-1 { width: 40vw; height: 40vw; background: var(--thc-green); top: -10%; left: -10%; opacity: 0.3; }
+        .blob-2 { width: 50vw; height: 50vw; background: var(--alert-red); bottom: -10%; right: -10%; opacity: 0.2; }
 
         @keyframes move {
-            from { transform: translate(0, 0) scale(1); }
-            to { transform: translate(150px, 80px) scale(1.1); }
+            from { transform: translate(0, 0) rotate(0deg); }
+            to { transform: translate(100px, 100px) rotate(30deg); }
         }
 
-        /* --- UI COMPONENTS --- */
-        .legal-bar {
-            background: var(--alert-red);
-            color: #000;
-            text-align: center;
-            font-size: 0.7rem;
-            font-weight: 800;
-            padding: 8px 0;
-            text-transform: uppercase;
-            position: sticky;
-            top: 0;
-            z-index: 3000;
-        }
-
-        header {
-            height: 60vh;
+        /* --- LEFT SIDEBAR (FIXED) --- */
+        .sidebar {
+            width: 40%;
+            padding: 60px;
             display: flex;
             flex-direction: column;
             justify-content: center;
-            align-items: center;
-            text-align: center;
-            padding: 20px;
+            border-right: 1px solid var(--glass-border);
+            z-index: 10;
         }
 
         .main-title {
-            font-size: clamp(2.5rem, 8vw, 5rem);
+            font-size: clamp(2rem, 5vw, 4rem);
             font-weight: 900;
-            margin: 0;
-            text-transform: uppercase;
             line-height: 0.9;
+            text-transform: uppercase;
         }
 
-        .flicker { color: var(--thc-green); animation: neon-flicker 3s infinite alternate; }
-        .outline { color: transparent; -webkit-text-stroke: 1.2px var(--alert-red); }
+        .flicker { color: var(--thc-green); text-shadow: 0 0 15px var(--thc-green); }
+        .outline { color: transparent; -webkit-text-stroke: 1px var(--alert-red); }
 
         .tagline {
-            font-size: 1rem;
-            letter-spacing: 10px;
-            color: var(--text-gray);
             margin-top: 20px;
+            letter-spacing: 5px;
+            color: #666;
             text-transform: uppercase;
+            font-size: 0.8rem;
         }
 
-        .container { max-width: 1100px; margin: 0 auto; padding: 0 20px 100px; }
-
-        /* PRODUCT GRID */
-        .product-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 30px;
+        /* --- THE GLOWING LEGAL FOOTER --- */
+        .legal-footer {
+            position: fixed;
+            bottom: 30px;
+            left: 60px;
+            font-size: 0.8rem;
+            background: var(--thc-green);
+            color: #000;
+            font-weight: 900;
+            padding: 10px 20px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border-radius: 4px;
+            /* HIGH INTENSITY NEON GLOW */
+            box-shadow: 
+                0 0 10px var(--thc-green),
+                0 0 25px var(--thc-green),
+                0 0 45px rgba(57, 255, 20, 0.5);
+            border: none;
         }
 
-        .edible-card {
-            background: var(--card-bg);
-            border-radius: 28px;
-            overflow: hidden;
+        /* --- RIGHT CONTENT --- */
+        .main-content {
+            width: 60%;
+            height: 100vh;
+            overflow-y: scroll;
+            padding: 60px;
+            background: linear-gradient(to right, rgba(0,0,0,0.5), transparent);
+            scrollbar-width: none; 
+        }
+        .main-content::-webkit-scrollbar { display: none; }
+
+        .product-list { display: flex; flex-direction: column; gap: 40px; }
+
+        .glass-card {
+            background: var(--glass);
+            backdrop-filter: blur(20px);
             border: 1px solid var(--glass-border);
-            backdrop-filter: blur(15px);
-            transition: 0.4s ease;
+            border-radius: 20px;
+            display: flex;
+            overflow: hidden;
         }
 
-        .edible-card:hover {
-            transform: translateY(-10px);
+        .glass-card:hover {
             border-color: var(--thc-green);
+            transform: scale(1.02);
+            background: rgba(30, 30, 30, 0.8);
         }
 
-        .img-box {
-            width: 100%;
-            aspect-ratio: 16/10;
-            background: rgba(0,0,0,0.5);
+        .card-img {
+            width: 200px;
+            background: #000;
             display: flex;
             align-items: center;
             justify-content: center;
-            color: #444;
-            font-size: 0.7rem;
-            letter-spacing: 2px;
+            font-size: 0.6rem;
+            color: #333;
         }
 
-        .details { padding: 30px; }
-        .potency-badge { color: var(--thc-green); font-size: 0.65rem; font-weight: 900; text-transform: uppercase; }
-        .product-name { font-size: 1.8rem; margin: 10px 0; }
-        .price { font-size: 1.4rem; font-weight: 300; margin-bottom: 20px; color: #fff; }
+        .card-info { padding: 30px; flex: 1; }
 
-        .btn-select {
-            width: 100%;
-            padding: 15px;
+        .btn-action {
             background: transparent;
-            color: #fff;
-            border: 1px solid #444;
-            border-radius: 12px;
-            font-weight: bold;
+            border: 1px solid var(--thc-green);
+            color: var(--thc-green);
+            padding: 10px 20px;
+            border-radius: 5px;
             cursor: pointer;
-            transition: 0.3s;
+            margin-top: 15px;
+            font-weight: bold;
         }
 
-        .btn-select:hover { background: #fff; color: #000; }
+        .btn-action:hover { background: var(--thc-green); color: #000; }
 
-        /* CONTACT FORM */
-        .contact-wrap {
-            background: var(--card-bg);
-            padding: 50px;
-            border-radius: 40px;
-            margin-top: 80px;
-            border: 1px solid var(--glass-border);
-            backdrop-filter: blur(15px);
+        .contact-section {
+            margin-top: 100px;
+            padding: 40px;
+            border-top: 1px solid var(--glass-border);
         }
 
         input, textarea {
             width: 100%;
-            padding: 18px;
-            background: rgba(0,0,0,0.4);
-            border: 1px solid #333;
-            border-radius: 14px;
+            padding: 15px;
+            margin-bottom: 15px;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid #222;
             color: #fff;
-            margin-bottom: 20px;
-            font-family: inherit;
+            border-radius: 8px;
         }
 
-        .btn-send {
-            background: var(--thc-green);
-            color: #000;
-            width: 100%;
-            padding: 20px;
-            border: none;
-            border-radius: 14px;
-            font-weight: 900;
-            text-transform: uppercase;
-            cursor: pointer;
-        }
-
-        /* --- POP UP / MODAL --- */
-        .modal-overlay {
+        /* --- MODAL --- */
+        .modal {
             display: none;
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.9);
-            z-index: 5000;
-            align-items: center;
-            justify-content: center;
-            backdrop-filter: blur(10px);
+            background: rgba(0,0,0,0.95);
+            z-index: 9999;
+            align-items: center; justify-content: center;
         }
 
-        .modal-content {
-            background: #111;
-            padding: 40px;
-            border-radius: 30px;
-            border: 1px solid var(--thc-green);
+        .modal-box {
+            background: #000;
+            border: 2px solid var(--thc-green);
+            padding: 50px;
             text-align: center;
-            max-width: 420px;
-            width: 90%;
-            box-shadow: 0 0 50px rgba(57, 255, 20, 0.15);
+            border-radius: 2px;
+            max-width: 450px;
         }
 
-        .modal-content h2 { color: var(--thc-green); margin-top: 0; font-size: 2rem; }
-        .modal-content p { color: var(--text-gray); margin-bottom: 25px; }
-
-        .close-link {
-            display: block;
-            margin-top: 20px;
-            color: #555;
-            text-decoration: none;
-            font-size: 0.8rem;
-            cursor: pointer;
+        @media (max-width: 900px) {
+            body { flex-direction: column; overflow-y: scroll; height: auto; }
+            .sidebar, .main-content { width: 100%; height: auto; }
+            .sidebar { padding: 40px 20px; text-align: center; }
+            .legal-footer { position: relative; margin: 40px auto; left: 0; bottom: 0; width: fit-content; }
         }
-
-        @keyframes neon-flicker {
-            0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% { opacity: 1; text-shadow: 0 0 10px var(--thc-green); }
-            20%, 24%, 55% { opacity: 0.5; text-shadow: none; }
-        }
-
     </style>
 </head>
 <body>
 
-    <div id="newsletter-modal" class="modal-overlay">
-        <div class="modal-content">
-            <h2>The Inner Circle</h2>
-            <p>Join for exclusive drops, private events, and elevated discounts.</p>
-            <form action="https://formspree.io/f/xdalbbrg" method="POST">
-                <input type="email" name="email" placeholder="Email Address" required>
-                <button type="submit" class="btn-send" style="padding: 15px;">Initialize Access</button>
-            </form>
-            <a class="close-link" onclick="closeNewsletter()">Maybe later</a>
-        </div>
-    </div>
-
     <div class="bg-mesh">
         <div class="blob blob-1"></div>
         <div class="blob blob-2"></div>
-        <div class="blob blob-3"></div>
     </div>
 
-    <div class="legal-bar">
-        21+ ONLY | Elevated Responsibility | Keep Out of Reach of Children
-    </div>
-
-    <header>
+    <div class="sidebar">
         <h1 class="main-title">
             <span class="flicker">N'CREDIBLE</span><br>
             <span class="outline">EDIBLES</span>
         </h1>
         <div class="tagline">Elevated Confections</div>
-    </header>
+        <p style="color: #888; margin-top: 40px; line-height: 1.8;">A boutique experience for the discerning connoisseur. Small batch. High potency. Pure craft.</p>
+        
+        <div class="legal-footer">21+ Only • Responsible Consumption Required</div>
+    </div>
 
-    <div class="container">
-        <div class="product-grid">
-            <div class="edible-card">
-                <div class="img-box">IMAGE: ATOMIC_GUMMIES</div>
-                <div class="details">
-                    <span class="potency-badge">High Potency</span>
-                    <h3 class="product-name">Atomic Gummies</h3>
-                    <div class="price">$35.00</div>
-                    <button class="btn-select" onclick="selectProduct('Atomic Gummies')">Inquiry</button>
+    <div class="main-content">
+        <div class="product-list">
+            <h2 style="text-transform: uppercase; letter-spacing: 4px; color: var(--thc-green);">The Menu</h2>
+            <div class="glass-card">
+                <div class="card-img">IMAGE: 01</div>
+                <div class="card-info">
+                    <span style="color:var(--alert-red); font-size: 0.7rem; font-weight: 800;">50MG PIECE</span>
+                    <h3 style="margin: 10px 0;">Atomic Gummies</h3>
+                    <p style="color: #aaa; font-size: 0.9rem;">Shatter-infused sour rings. Explosive flavor.</p>
+                    <button class="btn-action" onclick="order('Atomic Gummies')">Request Inquiry</button>
                 </div>
             </div>
-
-            <div class="edible-card">
-                <div class="img-box">IMAGE: MIDNIGHT_FUDGE</div>
-                <div class="details">
-                    <span class="potency-badge">Full Spectrum</span>
-                    <h3 class="product-name">Midnight Fudge</h3>
-                    <div class="price">$40.00</div>
-                    <button class="btn-select" onclick="selectProduct('Midnight Fudge')">Inquiry</button>
+            <div class="glass-card">
+                <div class="card-img">IMAGE: 02</div>
+                <div class="card-info">
+                    <span style="color:var(--alert-red); font-size: 0.7rem; font-weight: 800;">FULL SPECTRUM</span>
+                    <h3 style="margin: 10px 0;">Midnight Fudge</h3>
+                    <p style="color: #aaa; font-size: 0.9rem;">Deep indica-based dark chocolate ganache.</p>
+                    <button class="btn-action" onclick="order('Midnight Fudge')">Request Inquiry</button>
                 </div>
             </div>
         </div>
 
-        <div class="contact-wrap" id="contact">
-            <h2 style="margin-top:0">Secure Inquiry</h2>
+        <div class="contact-section" id="contact">
+            <h2 style="text-transform: uppercase; letter-spacing: 4px;">Initialize Contact</h2>
             <form action="https://formspree.io/f/xdalbbrg" method="POST">
-                <input type="text" name="name" required placeholder="Preferred Name">
-                <input type="text" name="contact" required placeholder="Contact Method (Telegram/Email)">
-                <textarea id="message-box" name="message" rows="5" required placeholder="Your message..."></textarea>
-                <button type="submit" class="btn-send">Send Secure Request</button>
+                <input type="text" name="name" placeholder="Preferred Name" required>
+                <input type="text" name="contact" placeholder="Contact Handle (Email/Telegram)" required>
+                <textarea id="msg" name="message" rows="4" placeholder="Your Inquiry..."></textarea>
+                <button type="submit" class="btn-action" style="width: 100%; padding: 20px;">Send Secure Request</button>
             </form>
         </div>
     </div>
 
+    <div id="popup" class="modal">
+        <div class="modal-box">
+            <h2 style="color: var(--thc-green); text-transform: uppercase;">Inner Circle Access</h2>
+            <p style="color: #888; font-size: 0.9rem;">Enter your credentials to receive drop notifications and private menu updates.</p>
+            <form action="https://formspree.io/f/xdalbbrg" method="POST">
+                <input type="email" name="email" placeholder="email@address.com" required>
+                <button type="submit" class="btn-action" style="width: 100%;">Authorize</button>
+            </form>
+            <button onclick="closePop()" style="background:none; border:none; color:#444; margin-top:20px; cursor:pointer; text-transform: uppercase; font-size: 0.7rem;">Decline Access</button>
+        </div>
+    </div>
+
     <script>
-        // Pre-fill form from product selection
-        function selectProduct(name) {
-            const msg = document.getElementById('message-box');
-            msg.value = `I am inquiring about the ${name}. Please contact me with availability.`;
+        function order(item) {
+            document.getElementById('msg').value = "Inquiry: " + item;
             document.getElementById('contact').scrollIntoView({ behavior: 'smooth' });
         }
-
-        // Pop-up Logic
         window.onload = function() {
-            // Check if user has already closed it in this session
-            if (!sessionStorage.getItem('newsletterClosed')) {
-                setTimeout(() => {
-                    document.getElementById('newsletter-modal').style.display = 'flex';
-                }, 4000); // 4 second delay
+            if (!sessionStorage.getItem('seen')) {
+                setTimeout(() => { document.getElementById('popup').style.display = 'flex'; }, 4000);
             }
         }
-
-        function closeNewsletter() {
-            document.getElementById('newsletter-modal').style.display = 'none';
-            sessionStorage.setItem('newsletterClosed', 'true');
+        function closePop() {
+            document.getElementById('popup').style.display = 'none';
+            sessionStorage.setItem('seen', 'true');
         }
     </script>
 </body>
