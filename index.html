@@ -8,386 +8,301 @@
         :root {
             --thc-green: #39ff14;
             --alert-red: #ff073a;
-            --ui-black: #0a0a0a;
-            --card-bg: #141414;
+            --ui-black: #050505;
+            --card-bg: rgba(15, 15, 15, 0.85);
+            --text-gray: #a0a0a0;
+            --glass-border: rgba(255, 255, 255, 0.1);
         }
+
+        * { box-sizing: border-box; }
 
         body {
-            background: radial-gradient(circle at center, var(--thc-green), var(--ui-black));
-            color: #e0e0e0;
-            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--ui-black);
+            color: #ffffff;
+            font-family: 'Inter', sans-serif;
             margin: 0;
-            padding: 0;
             overflow-x: hidden;
+            min-height: 100vh;
         }
 
-        /* Top Warning Bar */
+        /* --- ABSTRACT MESH GRADIENT --- */
+        .bg-mesh {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: -1;
+            filter: blur(100px);
+            opacity: 0.5;
+        }
+
+        .blob {
+            position: absolute;
+            border-radius: 50%;
+            animation: move 20s infinite alternate;
+        }
+
+        .blob-1 { width: 500px; height: 500px; background: #1a3c15; top: -5%; left: -5%; }
+        .blob-2 { width: 600px; height: 600px; background: #3d0a15; bottom: -5%; right: -5%; animation-delay: -5s; }
+        .blob-3 { width: 400px; height: 400px; background: #1a2a44; top: 30%; left: 40%; animation-delay: -10s; }
+
+        @keyframes move {
+            from { transform: translate(0, 0) scale(1); }
+            to { transform: translate(150px, 80px) scale(1.1); }
+        }
+
+        /* --- UI COMPONENTS --- */
         .legal-bar {
             background: var(--alert-red);
             color: #000;
             text-align: center;
-            font-size: 0.75rem;
-            font-weight: bold;
-            padding: 5px 0;
+            font-size: 0.7rem;
+            font-weight: 800;
+            padding: 8px 0;
             text-transform: uppercase;
-            letter-spacing: 1px;
+            position: sticky;
+            top: 0;
+            z-index: 3000;
         }
 
         header {
+            height: 60vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
             text-align: center;
-            padding: 60px 20px;
-            border-bottom: 1px solid #222;
-            background: linear-gradient(45deg, var(--thc-green), var(--alert-red));
+            padding: 20px;
         }
 
-        /* NEON FLICKER LOGO */
         .main-title {
-            color: #fff;
-            font-size: 3.5rem;
-            margin: 0;
-            letter-spacing: -2px;
-            text-transform: uppercase;
+            font-size: clamp(2.5rem, 8vw, 5rem);
             font-weight: 900;
+            margin: 0;
+            text-transform: uppercase;
+            line-height: 0.9;
         }
 
-        .flicker {
-            animation: neon-flicker 4s infinite alternate;
-            color: var(--thc-green);
-        }
-
-        .main-title span { 
-            color: var(--ui-black);
-            -webkit-text-stroke: 1.5px var(--alert-red);
-            text-shadow: 0 0 15px var(--alert-red);
-            margin-left: 10px;
-        }
-
-        @keyframes neon-flicker {
-            0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% {
-                text-shadow: 0 0 10px var(--thc-green), 0 0 20px var(--thc-green);
-                opacity: 1;
-            }
-            20%, 24%, 55% {
-                text-shadow: none;
-                opacity: 0.4;
-            }
-        }
+        .flicker { color: var(--thc-green); animation: neon-flicker 3s infinite alternate; }
+        .outline { color: transparent; -webkit-text-stroke: 1.2px var(--alert-red); }
 
         .tagline {
-            color: #000;
             font-size: 1rem;
-            margin-top: 10px;
-            text-transform: uppercase;
-            letter-spacing: 5px;
-        }
-
-        .community-statement {
+            letter-spacing: 10px;
+            color: var(--text-gray);
             margin-top: 20px;
-            font-size: 1.2rem;
-            color: #fff;
-            font-weight: 600;
-            text-shadow: 0 0 15px var(--thc-green);
+            text-transform: uppercase;
         }
 
-        .container {
-            max-width: 1000px;
-            margin: 40px auto;
-            padding: 0 20px;
-        }
+        .container { max-width: 1100px; margin: 0 auto; padding: 0 20px 100px; }
 
-        /* Product Display */
+        /* PRODUCT GRID */
         .product-grid {
             display: grid;
-            grid-template-columns: 1fr 1fr;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
             gap: 30px;
-            margin-bottom: 60px;
-            background: radial-gradient(circle, var(--thc-green) 20%, var(--card-bg) 80%);
-            border-radius: 20px;
         }
 
         .edible-card {
             background: var(--card-bg);
-            border-radius: 20px;
+            border-radius: 28px;
             overflow: hidden;
-            border: 1px solid #222;
-            transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            border: 1px solid var(--glass-border);
+            backdrop-filter: blur(15px);
+            transition: 0.4s ease;
         }
 
         .edible-card:hover {
-            border-color: var(--thc-green);
             transform: translateY(-10px);
-            box-shadow: 0 15px 30px rgba(57, 255, 20, 0.1);
+            border-color: var(--thc-green);
         }
 
         .img-box {
             width: 100%;
-            height: 300px;
-            background: #000;
+            aspect-ratio: 16/10;
+            background: rgba(0,0,0,0.5);
             display: flex;
             align-items: center;
             justify-content: center;
-            color: #333;
-            font-weight: bold;
-            border-bottom: 2px solid var(--alert-red);
-        }
-
-        .details { padding: 25px; }
-
-        .potency-badge {
-            background: rgba(255, 7, 58, 0.15);
-            color: var(--alert-red);
-            padding: 4px 12px;
-            border-radius: 50px;
+            color: #444;
             font-size: 0.7rem;
+            letter-spacing: 2px;
+        }
+
+        .details { padding: 30px; }
+        .potency-badge { color: var(--thc-green); font-size: 0.65rem; font-weight: 900; text-transform: uppercase; }
+        .product-name { font-size: 1.8rem; margin: 10px 0; }
+        .price { font-size: 1.4rem; font-weight: 300; margin-bottom: 20px; color: #fff; }
+
+        .btn-select {
+            width: 100%;
+            padding: 15px;
+            background: transparent;
+            color: #fff;
+            border: 1px solid #444;
+            border-radius: 12px;
             font-weight: bold;
-            text-transform: uppercase;
+            cursor: pointer;
+            transition: 0.3s;
         }
 
-        .product-name { font-size: 1.8rem; margin: 15px 0 10px 0; }
-        .price { color: var(--thc-green); font-size: 1.4rem; font-weight: bold; }
+        .btn-select:hover { background: #fff; color: #000; }
 
-        /* Contact Section */
+        /* CONTACT FORM */
         .contact-wrap {
-            background: linear-gradient(145deg, #111, #080808);
-            padding: 40px;
-            border-radius: 30px;
-            border: 1px solid #333;
+            background: var(--card-bg);
+            padding: 50px;
+            border-radius: 40px;
+            margin-top: 80px;
+            border: 1px solid var(--glass-border);
+            backdrop-filter: blur(15px);
         }
-
-        .contact-wrap h2 { color: var(--thc-green); margin-top: 0; }
-        .input-group { margin-bottom: 20px; }
-        label { display: block; margin-bottom: 8px; font-size: 0.85rem; color: #888; }
 
         input, textarea {
             width: 100%;
-            padding: 15px;
-            background: #000;
-            border: 1px solid #222;
-            border-radius: 12px;
+            padding: 18px;
+            background: rgba(0,0,0,0.4);
+            border: 1px solid #333;
+            border-radius: 14px;
             color: #fff;
-            font-size: 1rem;
-            box-sizing: border-box;
+            margin-bottom: 20px;
+            font-family: inherit;
         }
-
-        input:focus, textarea:focus { border-color: var(--thc-green); outline: none; }
 
         .btn-send {
-            background: var(--alert-red);
-            color: #fff;
+            background: var(--thc-green);
+            color: #000;
             width: 100%;
-            padding: 18px;
+            padding: 20px;
             border: none;
-            border-radius: 12px;
-            font-weight: bold;
-            font-size: 1.1rem;
-            cursor: pointer;
-            transition: 0.3s;
+            border-radius: 14px;
+            font-weight: 900;
             text-transform: uppercase;
+            cursor: pointer;
         }
 
-        .btn-send:hover { background: #cc0033; transform: scale(0.98); }
-
-        /* --- MODAL SYSTEM --- */
+        /* --- POP UP / MODAL --- */
         .modal-overlay {
             display: none;
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(0,0,0,0.9);
-            z-index: 2000;
+            z-index: 5000;
             align-items: center;
             justify-content: center;
+            backdrop-filter: blur(10px);
         }
 
         .modal-content {
-            background: var(--card-bg);
+            background: #111;
             padding: 40px;
-            border-radius: 20px;
-            border: 2px solid var(--thc-green);
+            border-radius: 30px;
+            border: 1px solid var(--thc-green);
             text-align: center;
-            max-width: 450px;
-            box-shadow: 0 0 30px rgba(57, 255, 20, 0.2);
-            position: relative;
+            max-width: 420px;
+            width: 90%;
+            box-shadow: 0 0 50px rgba(57, 255, 20, 0.15);
         }
 
-        .modal-content h2 { color: var(--thc-green); margin-top: 0; }
-        
-        .close-btn {
+        .modal-content h2 { color: var(--thc-green); margin-top: 0; font-size: 2rem; }
+        .modal-content p { color: var(--text-gray); margin-bottom: 25px; }
+
+        .close-link {
+            display: block;
             margin-top: 20px;
-            background: transparent;
-            color: #fff;
-            border: 1px solid #666;
-            padding: 10px 20px;
-            border-radius: 8px;
+            color: #555;
+            text-decoration: none;
+            font-size: 0.8rem;
             cursor: pointer;
         }
 
-        .newsletter-btn {
-            background: var(--thc-green);
-            color: #000;
-            border: none;
-            padding: 15px;
-            width: 100%;
-            border-radius: 10px;
-            font-weight: bold;
-            cursor: pointer;
-            margin-top: 10px;
-            text-transform: uppercase;
+        @keyframes neon-flicker {
+            0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% { opacity: 1; text-shadow: 0 0 10px var(--thc-green); }
+            20%, 24%, 55% { opacity: 0.5; text-shadow: none; }
         }
 
-        #newsletter-success {
-            display: none;
-            color: var(--thc-green);
-            font-weight: bold;
-            margin-top: 15px;
-        }
-
-        /* BRIGHT FOOTER */
-        footer {
-            text-align: center;
-            padding: 40px 20px;
-            color: #fff;
-            background: #000;
-            border-top: 1px solid #222;
-        }
-
-        .footer-copyright {
-            font-size: 1rem;
-            font-weight: 500;
-            letter-spacing: 1px;
-        }
-
-        .gotcha { display: none; }
-
-        @media (max-width: 768px) { .product-grid { grid-template-columns: 1fr; } }
     </style>
 </head>
 <body>
 
     <div id="newsletter-modal" class="modal-overlay">
         <div class="modal-content">
-            <h2>Join the Ncredible Circle</h2>
-            <p>Drop your email for exclusive drops and elevated discounts.</p>
-            
-            <form id="newsletter-form" action="https://formspree.io/f/xdalbbrg" method="POST">
-                <input type="hidden" name="_subject" value="New Inner Circle Subscriber!">
-                <input type="email" name="email" placeholder="Enter your email..." required style="margin-bottom: 10px;">
-                <button type="submit" class="newsletter-btn">Initialize Connection</button>
+            <h2>The Inner Circle</h2>
+            <p>Join for exclusive drops, private events, and elevated discounts.</p>
+            <form action="https://formspree.io/f/xdalbbrg" method="POST">
+                <input type="email" name="email" placeholder="Email Address" required>
+                <button type="submit" class="btn-send" style="padding: 15px;">Initialize Access</button>
             </form>
-
-            <div id="newsletter-success">
-                Access Granted. Check your inbox for your welcome code!
-            </div>
-
-            <button class="close-btn" onclick="closeNewsletter()">Maybe Later</button>
+            <a class="close-link" onclick="closeNewsletter()">Maybe later</a>
         </div>
     </div>
 
-    <div id="success-modal" class="modal-overlay">
-        <div class="modal-content">
-            <h2>Inquiry Sent!</h2>
-            <p>We've received your request. An agent will reach out shortly.</p>
-            <button class="close-btn" onclick="closeModal()">Close Window</button>
-        </div>
+    <div class="bg-mesh">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+        <div class="blob blob-3"></div>
     </div>
 
     <div class="legal-bar">
-        21+ ONLY | Please Consume Responsibly | Keep Out of Reach of Children
+        21+ ONLY | Elevated Responsibility | Keep Out of Reach of Children
     </div>
 
     <header>
         <h1 class="main-title">
-            <span class="flicker">N'CREDIBLE</span><span>EDIBLES</span>
+            <span class="flicker">N'CREDIBLE</span><br>
+            <span class="outline">EDIBLES</span>
         </h1>
         <div class="tagline">Elevated Confections</div>
-        <div class="community-statement">
-            Black-Owned ✊🏾 | LGBTQ+ Friendly 🏳️‍🌈
-        </div>
     </header>
 
     <div class="container">
         <div class="product-grid">
             <div class="edible-card">
-                <div class="img-box">IMAGE: FLAVOR_01</div>
+                <div class="img-box">IMAGE: ATOMIC_GUMMIES</div>
                 <div class="details">
                     <span class="potency-badge">High Potency</span>
-                    <h2 class="product-name">Atomic Gummies</h2>
+                    <h3 class="product-name">Atomic Gummies</h3>
                     <div class="price">$35.00</div>
-                    <p>Shatter-infused sour rings with a 50mg kick per piece.</p>
+                    <button class="btn-select" onclick="selectProduct('Atomic Gummies')">Inquiry</button>
                 </div>
             </div>
+
             <div class="edible-card">
-                <div class="img-box">IMAGE: FLAVOR_02</div>
+                <div class="img-box">IMAGE: MIDNIGHT_FUDGE</div>
                 <div class="details">
                     <span class="potency-badge">Full Spectrum</span>
-                    <h2 class="product-name">Midnight Fudge</h2>
+                    <h3 class="product-name">Midnight Fudge</h3>
                     <div class="price">$40.00</div>
-                    <p>Indica-dominant dark chocolate for deep relaxation.</p>
+                    <button class="btn-select" onclick="selectProduct('Midnight Fudge')">Inquiry</button>
                 </div>
             </div>
         </div>
 
-        <div class="contact-wrap">
-            <h2>Contact Us</h2>
+        <div class="contact-wrap" id="contact">
+            <h2 style="margin-top:0">Secure Inquiry</h2>
             <form action="https://formspree.io/f/xdalbbrg" method="POST">
-                <input type="hidden" name="_next" value="https://ncredibleedibles.github.io/Ncredible-Edibles/?success=true">
-                <input type="hidden" name="_subject" value="New Ncredible Edibles Order Inquiry!">
-                <input type="text" name="_gotcha" class="gotcha">
-                <div class="input-group">
-                    <label>Preferred Name</label>
-                    <input type="text" name="name" required>
-                </div>
-                <div class="input-group">
-                    <label>Contact Method</label>
-                    <input type="text" name="contact" required>
-                </div>
-                <div class="input-group">
-                    <label>Your Inquiry</label>
-                    <textarea name="message" rows="4" required></textarea>
-                </div>
-                <button type="submit" class="btn-send">Send Inquiry</button>
+                <input type="text" name="name" required placeholder="Preferred Name">
+                <input type="text" name="contact" required placeholder="Contact Method (Telegram/Email)">
+                <textarea id="message-box" name="message" rows="5" required placeholder="Your message..."></textarea>
+                <button type="submit" class="btn-send">Send Secure Request</button>
             </form>
         </div>
     </div>
 
-    <footer>
-        <div class="footer-copyright">
-            &copy; 2026 Ncredible Edibles. All items produced in compliance with local regulations.
-        </div>
-    </footer>
-
     <script>
+        // Pre-fill form from product selection
+        function selectProduct(name) {
+            const msg = document.getElementById('message-box');
+            msg.value = `I am inquiring about the ${name}. Please contact me with availability.`;
+            document.getElementById('contact').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Pop-up Logic
         window.onload = function() {
-            const urlParams = new URLSearchParams(window.location.search);
-            if (urlParams.get('success') === 'true') {
-                document.getElementById('success-modal').style.display = 'flex';
-                window.history.replaceState({}, document.title, window.location.pathname);
-            } else {
+            // Check if user has already closed it in this session
+            if (!sessionStorage.getItem('newsletterClosed')) {
                 setTimeout(() => {
-                    if (!sessionStorage.getItem('newsletterClosed')) {
-                        document.getElementById('newsletter-modal').style.display = 'flex';
-                    }
-                }, 5000);
+                    document.getElementById('newsletter-modal').style.display = 'flex';
+                }, 4000); // 4 second delay
             }
-        }
-
-        const newsletterForm = document.getElementById('newsletter-form');
-        if (newsletterForm) {
-            newsletterForm.onsubmit = async (e) => {
-                e.preventDefault();
-                const formData = new FormData(newsletterForm);
-                await fetch(newsletterForm.action, {
-                    method: 'POST',
-                    body: formData,
-                    headers: { 'Accept': 'application/json' }
-                });
-                newsletterForm.style.display = 'none';
-                document.getElementById('newsletter-success').style.display = 'block';
-                setTimeout(closeNewsletter, 3000);
-            };
-        }
-
-        function closeModal() { 
-            document.getElementById('success-modal').style.display = 'none'; 
         }
 
         function closeNewsletter() {
