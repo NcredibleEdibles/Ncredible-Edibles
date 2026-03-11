@@ -10,8 +10,8 @@
             --neon-green: #39ff14;    
             --alert-red: #ff073a;      
             --ui-black: #020202;
-            --glass-panel: rgba(5, 5, 5, 0.9);
-            --border-line: rgba(255, 255, 255, 0.08);
+            --glass-panel: rgba(5, 5, 5, 0.88);
+            --border-line: rgba(255, 255, 255, 0.1);
         }
 
         * { box-sizing: border-box; transition: 0.4s cubic-bezier(0.2, 0, 0.2, 1); }
@@ -26,241 +26,188 @@
             overflow: hidden; 
         }
 
-        /* =========================================
-           DYNAMIC CYBER BACKGROUND
-           ========================================= */
-        .bg-container {
+        /* 8-SECOND PULSING SMOKE */
+        #video-layer {
             position: fixed;
             top: 0; left: 0; width: 100vw; height: 100vh;
             z-index: -1;
-            background: radial-gradient(circle at center, #111 0%, #000 100%);
-            overflow: hidden;
-        }
-
-        /* The Moving Grid */
-        .grid {
-            position: absolute;
-            width: 200%; height: 200%;
-            top: -50%; left: -25%;
-            background-image: 
-                linear-gradient(rgba(57, 255, 20, 0.05) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(57, 255, 20, 0.05) 1px, transparent 1px);
-            background-size: 50px 50px;
-            transform: perspective(500px) rotateX(60deg);
-            animation: grid-move 20s linear infinite;
-        }
-
-        @keyframes grid-move {
-            from { transform: perspective(500px) rotateX(60deg) translateY(0); }
-            to { transform: perspective(500px) rotateX(60deg) translateY(50px); }
-        }
-
-        /* Neon Glow Clouds */
-        .glow-cloud {
-            position: absolute;
-            width: 600px; height: 600px;
-            filter: blur(150px);
-            opacity: 0.3;
-            border-radius: 50%;
-            animation: cloud-float 15s infinite alternate;
-        }
-        .cloud-green { background: var(--neon-green); top: -10%; left: -10%; }
-        .cloud-red { background: var(--alert-red); bottom: -10%; right: 10%; animation-delay: -5s; }
-
-        @keyframes cloud-float {
-            from { transform: translate(0, 0) scale(1); }
-            to { transform: translate(100px, 50px) scale(1.2); }
-        }
-
-        /* =========================================
-           SIDEBAR & LOGO
-           ========================================= */
-        .sidebar {
-            width: 45%;
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            background: var(--glass-panel);
-            backdrop-filter: blur(40px);
-            border-right: 1px solid var(--border-line);
-            padding: 60px;
-            z-index: 10;
-            text-align: center;
-            position: relative;
-        }
-
-        /* Scanline effect for sidebar */
-        .sidebar::after {
-            content: " ";
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.1) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.02), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.02));
-            background-size: 100% 4px, 3px 100%;
+            background: transparent;
+            opacity: 0;
             pointer-events: none;
+            transition: opacity 2s ease-in-out;
+        }
+
+        @keyframes smokePulse {
+            0%, 100% { transform: scale(1.6); opacity: 0.7; }
+            50% { transform: scale(1.7); opacity: 1; }
+        }
+
+        .pulsing-smoke { animation: smokePulse 4s ease-in-out infinite; }
+
+        #video-layer iframe { width: 100vw; height: 100vh; border: none; }
+
+        /* NEON BACKGROUND */
+        .color-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100vw; height: 100vh;
+            z-index: -2;
+            pointer-events: none;
+            overflow: hidden;
+            background: #000;
+        }
+
+        .glow-blob {
+            position: absolute;
+            width: 60vw; height: 60vw;
+            filter: blur(140px);
+            opacity: 0.35;
+            border-radius: 50%;
+            animation: move-glow 20s infinite alternate;
+        }
+        .glow-green { background: var(--neon-green); top: -10%; left: -10%; }
+        .glow-red { background: var(--alert-red); bottom: -10%; right: -10%; animation-delay: -5s; }
+
+        @keyframes move-glow {
+            from { transform: translate(0,0) scale(1); }
+            to { transform: translate(100px, 100px) scale(1.2); }
+        }
+
+        /* SIDEBAR */
+        .sidebar {
+            width: 45%; height: 100%;
+            display: flex; flex-direction: column;
+            justify-content: center; align-items: center;
+            background: var(--glass-panel);
+            backdrop-filter: blur(50px);
+            border-right: 1px solid var(--border-line);
+            padding: 60px; z-index: 10;
+            text-align: center; position: relative;
         }
 
         .logo-hero {
-            width: 100%;
-            max-width: 500px;
-            filter: drop-shadow(0 0 25px rgba(0, 242, 255, 0.5));
+            width: 100%; max-width: 500px;
+            filter: drop-shadow(0 0 25px rgba(0, 242, 255, 0.6));
             animation: float 5s infinite ease-in-out;
-            z-index: 5;
         }
 
         @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-15px); } }
 
-        .tagline {
-            margin-top: 30px;
-            letter-spacing: 12px;
-            text-transform: uppercase;
-            font-size: 0.7rem;
-            color: var(--neon-blue);
-            z-index: 5;
-        }
-
-        .age-warning {
-            position: absolute;
-            bottom: 40px;
-            border: 1px solid var(--alert-red);
-            padding: 8px 20px;
-            border-radius: 50px;
-            font-size: 0.6rem;
-            font-weight: 900;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            color: #fff;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .dot { width: 6px; height: 6px; background: var(--alert-red); border-radius: 50%; animation: pulse 1s infinite; }
-        @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.3; } 100% { opacity: 1; } }
-
-        /* =========================================
-           MAIN CONTENT
-           ========================================= */
+        /* MAIN CONTENT */
         .main-content {
-            width: 55%;
-            padding: 100px 60px;
-            overflow-y: scroll;
-            scrollbar-width: none;
+            width: 55%; padding: 100px 60px;
+            overflow-y: scroll; scrollbar-width: none;
         }
         .main-content::-webkit-scrollbar { display: none; }
 
         .product-card {
             background: rgba(255, 255, 255, 0.03);
             border: 1px solid var(--border-line);
-            border-radius: 20px;
-            padding: 40px;
-            margin-bottom: 30px;
-        }
-
-        .product-card:hover { 
-            border-color: var(--neon-green); 
-            background: rgba(57, 255, 20, 0.03);
-            transform: translateX(10px);
+            border-radius: 20px; padding: 40px;
+            margin-bottom: 30px; backdrop-filter: blur(15px);
         }
 
         .btn-order {
-            background: transparent;
-            border: 2px solid var(--neon-green);
-            color: var(--neon-green);
-            padding: 12px 30px;
-            font-weight: bold;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            border-radius: 4px;
-            cursor: pointer;
+            background: transparent; border: 2px solid var(--neon-green);
+            color: var(--neon-green); padding: 12px 30px;
+            font-weight: 900; text-transform: uppercase;
+            letter-spacing: 2px; border-radius: 4px; cursor: pointer;
             margin-top: 20px;
         }
 
         .btn-order:hover { background: var(--neon-green); color: #000; box-shadow: 0 0 20px var(--neon-green); }
 
+        /* CONTACT SECTION */
         .contact-section {
-            margin-top: 60px;
-            padding: 40px;
+            margin-top: 80px;
+            padding: 60px 40px;
+            background: rgba(255, 7, 58, 0.03);
             border: 1px solid var(--alert-red);
-            border-radius: 20px;
-            background: rgba(255, 7, 58, 0.02);
+            border-radius: 24px;
+            box-shadow: 0 0 30px rgba(255, 7, 58, 0.1);
+        }
+
+        .contact-section h2 {
+            color: var(--alert-red);
+            text-transform: uppercase;
+            letter-spacing: 5px;
+            margin-bottom: 30px;
         }
 
         input, textarea {
-            width: 100%; padding: 15px; margin-bottom: 15px;
+            width: 100%; padding: 18px; margin-bottom: 15px;
             background: #000; border: 1px solid #333;
-            color: #fff; border-radius: 8px; font-family: inherit;
+            color: #fff; border-radius: 10px; font-family: inherit;
         }
+
+        input:focus { border-color: var(--alert-red); outline: none; }
 
         .btn-submit {
-            background: var(--alert-red);
-            color: #fff; border: none; width: 100%; padding: 15px;
-            font-weight: bold; text-transform: uppercase; border-radius: 8px; cursor: pointer;
+            background: var(--alert-red); color: #fff;
+            border: none; width: 100%; padding: 20px;
+            font-weight: 900; text-transform: uppercase; 
+            letter-spacing: 3px; border-radius: 12px; cursor: pointer;
         }
 
-        /* POPUP */
+        /* POPUP MODAL */
         .modal {
             display: none;
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.9);
-            z-index: 1000;
+            background: rgba(0,0,0,0.97);
+            z-index: 99999; 
             align-items: center; justify-content: center;
         }
         .modal-box {
             background: #050505; border: 2px solid var(--alert-red);
-            padding: 40px; border-radius: 20px; text-align: center; max-width: 400px;
-            position: relative;
+            padding: 50px; border-radius: 20px; text-align: center; max-width: 450px;
         }
 
         @media (max-width: 900px) {
             body { flex-direction: column; overflow-y: auto; height: auto; }
             .sidebar, .main-content { width: 100%; height: auto; }
-            .sidebar { padding: 60px 20px; }
-            .grid { display: none; }
+            .sidebar { padding: 60px 20px; border-right: none; border-bottom: 1px solid var(--border-line); }
         }
     </style>
 </head>
 <body>
 
-<div class="bg-container">
-    <div class="grid"></div>
-    <div class="glow-cloud cloud-green"></div>
-    <div class="glow-cloud cloud-red"></div>
+<div id="video-layer">
+    <div class="pulsing-smoke">
+        <iframe src="https://streamable.com/e/51n2fx?autoplay=1&muted=1&loop=1&controls=0" allow="autoplay"></iframe>
+    </div>
+</div>
+
+<div class="color-overlay">
+    <div class="glow-blob glow-green"></div>
+    <div class="glow-blob glow-red"></div>
 </div>
 
 <div class="sidebar">
     <img src="https://i.postimg.cc/CLcNz6yq/transparentlogov1-removebg-preview.png" alt="Logo" class="logo-hero">
-    <div class="tagline">Elevated Confections</div>
-    
-    <div class="age-warning">
-        <div class="dot"></div>
-        <span>21+ Required • Elite Reserve</span>
-    </div>
+    <div style="margin-top: 30px; letter-spacing: 12px; text-transform: uppercase; font-size: 0.7rem; color: var(--neon-blue); font-weight: 800;">Elevated Confections</div>
 </div>
 
 <div class="main-content">
     <div class="product-card">
-        <span style="color: var(--alert-red); font-weight: 800; font-size: 0.7rem;">[ 50MG RESERVE ]</span>
-        <h3 style="font-size: 2rem; margin: 10px 0;">Atomic Gummies</h3>
-        <p style="color: #888;">High-potency shatter infusion. Precision flavored for the elite palate.</p>
+        <span style="color: var(--alert-red); font-weight: 900; font-size: 0.7rem;">[ 50MG RESERVE ]</span>
+        <h3 style="font-size: 2.2rem; margin: 15px 0;">Atomic Gummies</h3>
+        <p style="color: #888;">High-potency rings infused with pure distillate. Sharp and clean.</p>
         <button class="btn-order" onclick="scrollToContact('Atomic Gummies')">Request Allocation</button>
     </div>
 
     <div class="product-card">
-        <span style="color: var(--neon-blue); font-weight: 800; font-size: 0.7rem;">[ 100MG INDICA ]</span>
-        <h3 style="font-size: 2rem; margin: 10px 0;">Midnight Fudge</h3>
-        <p style="color: #888;">Full-spectrum Belgian dark chocolate. Crafted for deep, restorative relaxation.</p>
+        <span style="color: var(--neon-blue); font-weight: 900; font-size: 0.7rem;">[ 100MG INDICA ]</span>
+        <h3 style="font-size: 2.2rem; margin: 15px 0;">Midnight Fudge</h3>
+        <p style="color: #888;">Small-batch Belgian chocolate. Crafted for deep restoration.</p>
         <button class="btn-order" onclick="scrollToContact('Midnight Fudge')">Request Allocation</button>
     </div>
 
     <div class="contact-section" id="contact">
-        <h2 style="color: var(--alert-red); text-transform: uppercase; letter-spacing: 4px;">Initialize Inquiry</h2>
+        <h2>Secure Inquiry</h2>
         <form action="https://formspree.io/f/xdalbbrg" method="POST">
-            <input type="text" name="name" placeholder="Name" required>
+            <input type="text" name="name" placeholder="Full Name" required>
             <input type="text" name="handle" placeholder="Telegram / Email" required>
-            <textarea name="message" id="contact-msg" rows="3" placeholder="Details..."></textarea>
+            <textarea name="message" id="contact-msg" rows="4" placeholder="Your specific request..."></textarea>
             <button type="submit" class="btn-submit">Transmit Request</button>
         </form>
     </div>
@@ -268,29 +215,43 @@
 
 <div id="popup" class="modal">
     <div class="modal-box">
-        <h2 style="color: var(--alert-red); text-transform: uppercase;">The Inner Circle</h2>
-        <p style="color: #666; margin-bottom: 20px;">Join for private drops and menu updates.</p>
+        <h2 style="color: var(--alert-red); text-transform: uppercase; letter-spacing: 3px;">The Inner Circle</h2>
+        <p style="color: #666; margin-bottom: 25px;">Join for private drops and menu updates.</p>
         <form action="https://formspree.io/f/xdalbbrg" method="POST">
-            <input type="email" name="email" placeholder="Email" required>
-            <button type="submit" class="btn-submit">Join Vault</button>
+            <input type="email" name="email" placeholder="Email Address" required>
+            <button type="submit" style="background:var(--alert-red); color:white; border:none; width:100%; padding:15px; font-weight:900; cursor:pointer; border-radius: 8px;">Join Vault</button>
         </form>
-        <button onclick="closePop()" style="background:none; border:none; color:#444; margin-top:20px; cursor:pointer;">Dismiss</button>
+        <button onclick="closePop()" style="background:none; border:none; color:#444; margin-top:20px; cursor:pointer; font-weight:bold; font-size: 0.7rem;">DISMISS</button>
     </div>
 </div>
 
 <script>
+    function startSmokeTimer() {
+        const smokeLayer = document.getElementById('video-layer');
+        smokeLayer.style.opacity = '1';
+        setTimeout(() => {
+            smokeLayer.style.opacity = '0';
+            setTimeout(() => { smokeLayer.style.display = 'none'; }, 2000);
+        }, 8000); 
+    }
+
     function scrollToContact(item) {
-        document.getElementById('contact-msg').value = "Inquiry: " + item;
+        document.getElementById('contact-msg').value = "I am inquiring about: " + item;
         document.getElementById('contact').scrollIntoView({ behavior: 'smooth' });
     }
+
     window.onload = function() {
         if (!sessionStorage.getItem('seen')) {
-            setTimeout(() => { document.getElementById('popup').style.display = 'flex'; }, 4000);
+            setTimeout(() => { document.getElementById('popup').style.display = 'flex'; }, 2000);
+        } else {
+            startSmokeTimer();
         }
     }
+
     function closePop() {
         document.getElementById('popup').style.display = 'none';
         sessionStorage.setItem('seen', 'true');
+        startSmokeTimer();
     }
 </script>
 
