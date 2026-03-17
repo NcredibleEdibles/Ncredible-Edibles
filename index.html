@@ -219,7 +219,74 @@
             width: 100%;
             height: 100%;
             object-fit: cover;
-            transition: transform 0.8s ease;
+            display: block;
+            transition: transform 0.8s ease, opacity 0.35s ease;
+        }
+
+        .product-card:hover .product-img-box img {
+            transform: scale(1.04);
+        }
+
+        /* IMAGE CAROUSEL CONTROLS */
+        .img-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            background: rgba(0, 0, 0, 0.65);
+            color: #fff;
+            font-size: 24px;
+            font-weight: 700;
+            line-height: 1;
+            cursor: pointer;
+            z-index: 3;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0;
+        }
+
+        .img-btn.left {
+            left: 12px;
+        }
+
+        .img-btn.right {
+            right: 12px;
+        }
+
+        .img-btn:hover {
+            background: var(--neon-green);
+            color: #000;
+            border-color: var(--neon-green);
+            box-shadow: 0 0 18px rgba(57, 255, 20, 0.6);
+        }
+
+        .img-dots {
+            position: absolute;
+            left: 50%;
+            bottom: 14px;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 8px;
+            z-index: 3;
+        }
+
+        .img-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.35);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            cursor: pointer;
+        }
+
+        .img-dot.active {
+            background: var(--neon-green);
+            box-shadow: 0 0 10px rgba(57, 255, 20, 0.8);
+            border-color: var(--neon-green);
         }
 
         .btn-order {
@@ -344,8 +411,17 @@
 <div class="main-content">
     <div class="product-card">
         <div class="product-img-box">
-            <img src=https://i.postimg.cc/GhVbkgKF/product1.jpg alt="Atomic Gummies">
+            <img id="product1-img" src="https://i.postimg.cc/QN1fh0Yv/product1_1.jpg" alt="Atomic Gummies">
+
+            <button class="img-btn left" type="button" onclick="changeImage('product1', -1)">‹</button>
+            <button class="img-btn right" type="button" onclick="changeImage('product1', 1)">›</button>
+
+            <div class="img-dots">
+                <span class="img-dot active" onclick="setImage('product1', 0)"></span>
+                <span class="img-dot" onclick="setImage('product1', 1)"></span>
+            </div>
         </div>
+
         <span style="color: var(--alert-red); font-weight: 900; font-size: 0.8rem; letter-spacing: 2px;">[ 50MG RESERVE ]</span>
         <h3 style="font-size: 2.4rem; margin: 15px 0;">Atomic Gummies</h3>
         <p style="color: #bbb; line-height: 1.7;">High-potency rings infused with pure distillate.</p>
@@ -386,6 +462,57 @@
 </div>
 
 <script>
+    const productImages = {
+        product1: [
+            "https://i.postimg.cc/QN1fh0Yv/product1_1.jpg",
+            "https://i.postimg.cc/qBy14jD9/product1_2.jpg"
+        ]
+    };
+
+    const currentIndex = {
+        product1: 0
+    };
+
+    function updateDots(product) {
+        const box = document.getElementById(product + "-img").closest(".product-img-box");
+        const dots = box.querySelectorAll(".img-dot");
+
+        dots.forEach((dot, index) => {
+            if (index === currentIndex[product]) {
+                dot.classList.add("active");
+            } else {
+                dot.classList.remove("active");
+            }
+        });
+    }
+
+    function setImage(product, index) {
+        const img = document.getElementById(product + "-img");
+        currentIndex[product] = index;
+        img.style.opacity = "0.35";
+
+        setTimeout(() => {
+            img.src = productImages[product][currentIndex[product]];
+            img.style.opacity = "1";
+            updateDots(product);
+        }, 150);
+    }
+
+    function changeImage(product, direction) {
+        const images = productImages[product];
+        currentIndex[product] += direction;
+
+        if (currentIndex[product] < 0) {
+            currentIndex[product] = images.length - 1;
+        }
+
+        if (currentIndex[product] >= images.length) {
+            currentIndex[product] = 0;
+        }
+
+        setImage(product, currentIndex[product]);
+    }
+
     const forms = [document.getElementById('contact-form'), document.getElementById('popup-form')];
 
     forms.forEach(form => {
