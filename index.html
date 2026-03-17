@@ -29,7 +29,6 @@
             overflow: hidden;
         }
 
-        /* BACKGROUND SYSTEM */
         .bg-master-container {
             position: fixed;
             top: 0;
@@ -41,7 +40,6 @@
             overflow: hidden;
         }
 
-        /* GEOMETRIC SQUARES */
         .square-pattern {
             position: fixed;
             top: 0;
@@ -54,7 +52,6 @@
             pointer-events: none;
         }
 
-        /* SMOKE VIDEO LAYER */
         #video-layer {
             position: fixed;
             inset: 0;
@@ -143,7 +140,6 @@
             }
         }
 
-        /* SIDEBAR */
         .sidebar {
             width: 45%;
             height: 100%;
@@ -175,7 +171,6 @@
             }
         }
 
-        /* PRODUCT CARDS */
         .main-content {
             width: 55%;
             padding: 100px 60px;
@@ -227,7 +222,6 @@
             transform: scale(1.04);
         }
 
-        /* IMAGE CAROUSEL CONTROLS */
         .img-btn {
             position: absolute;
             top: 50%;
@@ -308,7 +302,6 @@
             box-shadow: 0 0 25px var(--neon-green);
         }
 
-        /* NOTIFICATIONS & MODAL */
         #success-toast {
             position: fixed;
             top: -110px;
@@ -411,17 +404,8 @@
 <div class="main-content">
     <div class="product-card">
         <div class="product-img-box">
-            <img id="product1-img" src="https://i.postimg.cc/QN1fh0Yv/product1_1.jpg" alt="Atomic Gummies">
-
-            <button class="img-btn left" type="button" onclick="changeImage('product1', -1)">‹</button>
-            <button class="img-btn right" type="button" onclick="changeImage('product1', 1)">›</button>
-
-            <div class="img-dots">
-                <span class="img-dot active" onclick="setImage('product1', 0)"></span>
-                <span class="img-dot" onclick="setImage('product1', 1)"></span>
-            </div>
+            <img src="https://via.placeholder.com/600x400/111/39ff14?text=Atomic+Gummies" alt="Atomic Gummies">
         </div>
-
         <span style="color: var(--alert-red); font-weight: 900; font-size: 0.8rem; letter-spacing: 2px;">[ 50MG RESERVE ]</span>
         <h3 style="font-size: 2.4rem; margin: 15px 0;">Atomic Gummies</h3>
         <p style="color: #bbb; line-height: 1.7;">High-potency rings infused with pure distillate.</p>
@@ -430,7 +414,15 @@
 
     <div class="product-card">
         <div class="product-img-box">
-            <img src="https://via.placeholder.com/600x400/111/00f2ff?text=Midnight+Fudge" alt="Midnight Fudge">
+            <img id="midnight-fudge-img" src="https://i.postimg.cc/QN1fh0Yv/product1_1.jpg" alt="Midnight Fudge">
+
+            <button class="img-btn left" type="button" onclick="changeImage('midnight-fudge', -1)">‹</button>
+            <button class="img-btn right" type="button" onclick="changeImage('midnight-fudge', 1)">›</button>
+
+            <div class="img-dots">
+                <span class="img-dot active" onclick="setImage('midnight-fudge', 0)"></span>
+                <span class="img-dot" onclick="setImage('midnight-fudge', 1)"></span>
+            </div>
         </div>
         <span style="color: var(--neon-blue); font-weight: 900; font-size: 0.8rem; letter-spacing: 2px;">[ 100MG INDICA ]</span>
         <h3 style="font-size: 2.4rem; margin: 15px 0;">Midnight Fudge</h3>
@@ -463,18 +455,19 @@
 
 <script>
     const productImages = {
-        product1: [
+        "midnight-fudge": [
             "https://i.postimg.cc/QN1fh0Yv/product1_1.jpg",
             "https://i.postimg.cc/qBy14jD9/product1_2.jpg"
         ]
     };
 
     const currentIndex = {
-        product1: 0
+        "midnight-fudge": 0
     };
 
     function updateDots(product) {
-        const box = document.getElementById(product + "-img").closest(".product-img-box");
+        const img = document.getElementById(product + "-img");
+        const box = img.closest(".product-img-box");
         const dots = box.querySelectorAll(".img-dot");
 
         dots.forEach((dot, index) => {
