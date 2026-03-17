@@ -34,7 +34,6 @@
             background: #000;
         }
 
-        /* GEOMETRIC SQUARES */
         .square-pattern {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
@@ -44,7 +43,6 @@
             pointer-events: none;
         }
 
-        /* PULSING SMOKE */
         #video-layer {
             position: fixed;
             top: 0; left: 0; width: 100vw; height: 100vh;
@@ -102,7 +100,7 @@
 
         @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-15px); } }
 
-        /* PRODUCT CARDS */
+        /* PRODUCT CARDS & SLIDER */
         .main-content {
             width: 55%; padding: 100px 60px;
             overflow-y: scroll; scrollbar-width: none;
@@ -122,17 +120,32 @@
             transform: translateY(-5px) translateX(8px);
         }
 
+        /* SLIDER CSS */
         .product-img-box {
             width: 100%; height: 300px;
             background: rgba(0, 0, 0, 0.4); border-radius: 18px;
             margin-bottom: 30px; overflow: hidden;
             border: 1px solid var(--border-line);
             position: relative;
+            display: flex;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            scrollbar-width: none;
+            scroll-behavior: smooth;
         }
+        .product-img-box::-webkit-scrollbar { display: none; }
+
         .product-img-box img {
-            width: 100%; height: 100%; object-fit: cover;
-            transition: transform 0.8s ease;
+            min-width: 100%; height: 100%; object-fit: cover;
+            scroll-snap-align: start;
         }
+
+        .slider-dots {
+            display: flex; justify-content: center; gap: 8px;
+            margin-top: -15px; margin-bottom: 25px;
+        }
+        .dot { width: 6px; height: 6px; background: rgba(255,255,255,0.2); border-radius: 50%; }
+        .dot.active { background: var(--neon-green); box-shadow: 0 0 8px var(--neon-green); width: 12px; border-radius: 4px; }
 
         .btn-order {
             background: transparent; border: 2px solid var(--neon-green);
@@ -142,7 +155,6 @@
         }
         .btn-order:hover { background: var(--neon-green); color: #000; box-shadow: 0 0 25px var(--neon-green); }
 
-        /* NOTIFICATIONS & MODAL */
         #success-toast {
             position: fixed; top: -110px; left: 50%;
             transform: translateX(-50%); background: var(--alert-red);
@@ -195,16 +207,33 @@
 </div>
 
 <div class="main-content">
-    <div class="product-card">
-        <div class="product-img-box"><img src="https://via.placeholder.com/600x400/111/39ff14?text=Atomic+Gummies" alt="Atomic Gummies"></div>
+    
+    <div class="product-card" data-current="0">
+        <div class="product-img-box">
+            <img src="https://via.placeholder.com/600x400/111/39ff14?text=Atomic+Gummies+A" alt="Atomic Gummies A">
+            <img src="https://via.placeholder.com/600x400/111/00f2ff?text=Atomic+Gummies+B" alt="Atomic Gummies B">
+            <img src="https://via.placeholder.com/600x400/111/ff073a?text=Atomic+Gummies+C" alt="Atomic Gummies C">
+        </div>
+        <div class="slider-dots">
+            <div class="dot active"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+        </div>
         <span style="color: var(--alert-red); font-weight: 900; font-size: 0.8rem; letter-spacing: 2px;">[ 50MG RESERVE ]</span>
         <h3 style="font-size: 2.4rem; margin: 15px 0;">Atomic Gummies</h3>
         <p style="color: #bbb; line-height: 1.7;">High-potency rings infused with pure distillate.</p>
         <button class="btn-order" onclick="scrollToContact('Atomic Gummies')">Request Allocation</button>
     </div>
 
-    <div class="product-card">
-        <div class="product-img-box"><img src="https://via.placeholder.com/600x400/111/00f2ff?text=Midnight+Fudge" alt="Midnight Fudge"></div>
+    <div class="product-card" data-current="0">
+        <div class="product-img-box">
+            <img src="https://via.placeholder.com/600x400/111/00f2ff?text=Midnight+Fudge+A" alt="Midnight Fudge A">
+            <img src="https://via.placeholder.com/600x400/111/39ff14?text=Midnight+Fudge+B" alt="Midnight Fudge B">
+        </div>
+        <div class="slider-dots">
+            <div class="dot active"></div>
+            <div class="dot"></div>
+        </div>
         <span style="color: var(--neon-blue); font-weight: 900; font-size: 0.8rem; letter-spacing: 2px;">[ 100MG INDICA ]</span>
         <h3 style="font-size: 2.4rem; margin: 15px 0;">Midnight Fudge</h3>
         <p style="color: #bbb; line-height: 1.7;">Small-batch Belgian chocolate for deep restoration.</p>
@@ -235,6 +264,32 @@
 </div>
 
 <script>
+    // Slider Logic
+    function autoCycleSliders() {
+        const cards = document.querySelectorAll('.product-card');
+        
+        cards.forEach(card => {
+            const imgBox = card.querySelector('.product-img-box');
+            const images = imgBox.querySelectorAll('img');
+            const dots = card.querySelectorAll('.dot');
+            let current = parseInt(card.getAttribute('data-current'));
+
+            setInterval(() => {
+                current = (current + 1) % images.length;
+                card.setAttribute('data-current', current);
+                
+                // Scroll to the next image
+                const scrollWidth = imgBox.offsetWidth;
+                imgBox.scrollTo({ left: scrollWidth * current, behavior: 'smooth' });
+
+                // Update dots
+                dots.forEach((dot, index) => {
+                    dot.classList.toggle('active', index === current);
+                });
+            }, 4000); // 4 seconds per image
+        });
+    }
+
     const forms = [document.getElementById('contact-form'), document.getElementById('popup-form')];
     forms.forEach(form => {
         form.addEventListener("submit", async function(e) {
@@ -271,6 +326,7 @@
     }
 
     window.onload = function() {
+        autoCycleSliders();
         setTimeout(() => { 
             document.getElementById('popup').style.display = 'flex'; 
         }, 2000);
