@@ -140,7 +140,6 @@
             }
         }
 
-        /* SIDEBAR */
         .sidebar {
             width: 45%;
             height: 100%;
@@ -295,6 +294,7 @@
             object-fit: cover;
             display: block;
             transition: transform 0.8s ease, opacity 0.35s ease;
+            cursor: pointer;
         }
 
         .product-card:hover .product-img-box img {
@@ -418,6 +418,55 @@
             width: calc(100% - 30px);
         }
 
+        /* IMAGE LIGHTBOX */
+        .lightbox {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.94);
+            z-index: 100001;
+            align-items: center;
+            justify-content: center;
+            padding: 30px;
+        }
+
+        .lightbox.open {
+            display: flex;
+        }
+
+        .lightbox img {
+            max-width: 92vw;
+            max-height: 88vh;
+            width: auto;
+            height: auto;
+            border-radius: 18px;
+            border: 1px solid rgba(255,255,255,0.15);
+            box-shadow: 0 0 40px rgba(0, 242, 255, 0.12);
+            object-fit: contain;
+        }
+
+        .lightbox-close {
+            position: absolute;
+            top: 18px;
+            right: 18px;
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            border: 1px solid rgba(255,255,255,0.2);
+            background: rgba(0,0,0,0.75);
+            color: #fff;
+            font-size: 28px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .lightbox-close:hover {
+            background: var(--alert-red);
+            border-color: var(--alert-red);
+        }
+
         @media (max-width: 900px) {
             body {
                 flex-direction: column;
@@ -499,7 +548,7 @@
         <div class="sidebar-divider"></div>
         <div class="sidebar-tagline">Elevated Confections</div>
         <div class="sidebar-subtext">
-            About business info hear
+            About Business info here
         </div>
     </div>
 </div>
@@ -507,7 +556,10 @@
 <div class="main-content">
     <div class="product-card">
         <div class="product-img-box">
-            <img src="https://via.placeholder.com/600x400/111/39ff14?text=Atomic+Gummies" alt="Atomic Gummies">
+            <img
+                src="https://i.postimg.cc/GhVbkgKF/product1.jpg"
+                alt="Atomic Gummies"
+                onclick="openLightbox(this.src)">
         </div>
         <span style="color: var(--alert-red); font-weight: 900; font-size: 0.8rem; letter-spacing: 2px;">[ 50MG RESERVE ]</span>
         <h3 style="font-size: 2.4rem; margin: 15px 0;">Atomic Gummies</h3>
@@ -517,7 +569,11 @@
 
     <div class="product-card">
         <div class="product-img-box">
-            <img id="midnight-fudge-img" src="https://i.postimg.cc/QN1fh0Yv/product1_1.jpg" alt="Midnight Fudge">
+            <img
+                id="midnight-fudge-img"
+                src="https://i.postimg.cc/QN1fh0Yv/product1_1.jpg"
+                alt="Midnight Fudge"
+                onclick="openLightbox(this.src)">
 
             <button class="img-btn left" type="button" onclick="changeImage('midnight-fudge', -1)">‹</button>
             <button class="img-btn right" type="button" onclick="changeImage('midnight-fudge', 1)">›</button>
@@ -554,6 +610,11 @@
         </form>
         <button onclick="closePop()" style="background:none; border:none; color:#444; margin-top:25px; cursor:pointer; font-weight:bold; font-size: 0.8rem; letter-spacing: 1px;">DISMISS</button>
     </div>
+</div>
+
+<div id="image-lightbox" class="lightbox" onclick="closeLightbox(event)">
+    <button class="lightbox-close" type="button" onclick="closeLightbox(event)">×</button>
+    <img id="lightbox-image" src="" alt="Expanded Product Image">
 </div>
 
 <script>
@@ -608,6 +669,30 @@
 
         setImage(product, currentIndex[product]);
     }
+
+    function openLightbox(src) {
+        document.getElementById("lightbox-image").src = src;
+        document.getElementById("image-lightbox").classList.add("open");
+        document.body.style.overflow = "hidden";
+    }
+
+    function closeLightbox(event) {
+        if (
+            !event ||
+            event.target.id === "image-lightbox" ||
+            event.target.classList.contains("lightbox-close")
+        ) {
+            document.getElementById("image-lightbox").classList.remove("open");
+            document.getElementById("lightbox-image").src = "";
+            document.body.style.overflow = "";
+        }
+    }
+
+    document.addEventListener("keydown", function(event) {
+        if (event.key === "Escape") {
+            closeLightbox();
+        }
+    });
 
     const forms = [document.getElementById('contact-form'), document.getElementById('popup-form')];
 
