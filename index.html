@@ -140,6 +140,7 @@
             }
         }
 
+        /* SIDEBAR */
         .sidebar {
             width: 45%;
             height: 100%;
@@ -147,19 +148,97 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            background: var(--glass-panel);
+            background:
+                radial-gradient(circle at top center, rgba(0, 242, 255, 0.12), transparent 35%),
+                radial-gradient(circle at bottom left, rgba(57, 255, 20, 0.08), transparent 30%),
+                linear-gradient(180deg, rgba(8, 8, 8, 0.96), rgba(3, 3, 3, 0.92));
             backdrop-filter: blur(40px);
             border-right: 1px solid var(--border-line);
             padding: 60px;
             z-index: 10;
             text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .sidebar::before {
+            content: "";
+            position: absolute;
+            width: 430px;
+            height: 430px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(0, 242, 255, 0.18) 0%, rgba(57, 255, 20, 0.08) 35%, transparent 70%);
+            filter: blur(35px);
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -56%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .sidebar::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background-image:
+                linear-gradient(rgba(255,255,255,0.04) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255,255,255,0.04) 1px, transparent 1px);
+            background-size: 28px 28px;
+            mask-image: linear-gradient(to bottom, transparent, rgba(0,0,0,1) 15%, rgba(0,0,0,1) 85%, transparent);
+            pointer-events: none;
+            opacity: 0.35;
+            z-index: 0;
+        }
+
+        .sidebar-inner {
+            position: relative;
+            z-index: 2;
+            width: 100%;
+            max-width: 520px;
+            padding: 42px 32px;
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 28px;
+            background: rgba(255,255,255,0.03);
+            box-shadow:
+                0 0 30px rgba(0, 242, 255, 0.08),
+                inset 0 0 20px rgba(255,255,255,0.02);
+            backdrop-filter: blur(20px);
         }
 
         .logo-hero {
             width: 100%;
-            max-width: 480px;
+            max-width: 420px;
             filter: drop-shadow(0 0 35px rgba(0, 242, 255, 0.6));
             animation: float 5s infinite ease-in-out;
+        }
+
+        .sidebar-tagline {
+            margin-top: 35px;
+            letter-spacing: 10px;
+            text-transform: uppercase;
+            font-size: 0.78rem;
+            color: var(--neon-blue);
+            font-weight: 800;
+            text-shadow: 0 0 12px rgba(0, 242, 255, 0.45);
+        }
+
+        .sidebar-subtext {
+            margin-top: 18px;
+            color: rgba(255, 255, 255, 0.62);
+            font-size: 0.92rem;
+            line-height: 1.7;
+            max-width: 420px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .sidebar-divider {
+            width: 90px;
+            height: 2px;
+            margin: 26px auto 0;
+            background: linear-gradient(90deg, transparent, var(--neon-green), transparent);
+            box-shadow: 0 0 14px rgba(57, 255, 20, 0.45);
+            border-radius: 999px;
         }
 
         @keyframes float {
@@ -357,6 +436,24 @@
                 border-right: none;
             }
 
+            .sidebar::before {
+                width: 300px;
+                height: 300px;
+            }
+
+            .sidebar-inner {
+                padding: 30px 20px;
+            }
+
+            .logo-hero {
+                max-width: 320px;
+            }
+
+            .sidebar-tagline {
+                letter-spacing: 6px;
+                font-size: 0.72rem;
+            }
+
             .product-img-box {
                 height: 240px;
             }
@@ -397,14 +494,20 @@
 </div>
 
 <div class="sidebar">
-    <img src="https://i.postimg.cc/CLcNz6yq/transparentlogov1-removebg-preview.png" alt="Logo" class="logo-hero">
-    <div style="margin-top: 35px; letter-spacing: 14px; text-transform: uppercase; font-size: 0.75rem; color: var(--neon-blue); font-weight: 800;">Elevated Confections</div>
+    <div class="sidebar-inner">
+        <img src="https://i.postimg.cc/CLcNz6yq/transparentlogov1-removebg-preview.png" alt="Logo" class="logo-hero">
+        <div class="sidebar-divider"></div>
+        <div class="sidebar-tagline">Elevated Confections</div>
+        <div class="sidebar-subtext">
+            Premium presentation. Bold visuals. A cleaner hero area that feels more intentional and less flat.
+        </div>
+    </div>
 </div>
 
 <div class="main-content">
     <div class="product-card">
         <div class="product-img-box">
-            <img src=https://i.postimg.cc/GhVbkgKF/product1.jpg alt="Atomic Gummies">
+            <img src="https://via.placeholder.com/600x400/111/39ff14?text=Atomic+Gummies" alt="Atomic Gummies">
         </div>
         <span style="color: var(--alert-red); font-weight: 900; font-size: 0.8rem; letter-spacing: 2px;">[ 50MG RESERVE ]</span>
         <h3 style="font-size: 2.4rem; margin: 15px 0;">Atomic Gummies</h3>
