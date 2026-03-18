@@ -297,6 +297,15 @@
             cursor: pointer;
         }
 
+        .product-img-box img.full-photo {
+            object-fit: contain;
+            background: #000;
+        }
+
+        .product-card.third-card .product-img-box {
+            height: 380px;
+        }
+
         .product-card:hover .product-img-box img {
             transform: scale(1.04);
         }
@@ -506,6 +515,10 @@
                 height: 240px;
             }
 
+            .product-card.third-card .product-img-box {
+                height: 300px;
+            }
+
             .main-content {
                 padding: 40px 20px;
             }
@@ -588,9 +601,10 @@
         <button class="btn-order" onclick="scrollToContact('Papa Bear')">Request Allocation</button>
     </div>
 
-    <div class="product-card">
+    <div class="product-card third-card">
         <div class="product-img-box">
             <img
+                class="full-photo"
                 src="https://i.postimg.cc/vTRkGvgW/product1-3.jpg"
                 alt="Third Product"
                 onclick="openLightbox(this.src)">
